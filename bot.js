@@ -26,9 +26,9 @@ await (async () => {
     if (type === "capital") {
       await sendOnExpedition(planet, buildingsPage);
 
-      // if (metal >= MAX_CAPITAL_METAL) {
-      await createDefence(planet);
-      // }
+      if (metal >= MAX_CAPITAL_METAL) {
+        await createDefence(planet);
+      }
     }
   });
 
