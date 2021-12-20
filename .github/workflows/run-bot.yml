@@ -1,0 +1,38 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow will install Deno then run Deno lint and test.
+# For more information see: https://github.com/denoland/setup-deno
+
+name: run-bot
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "18 * * * *"
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Run bot
+        run: deno run --allow-net --allow-env bot.js
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          USER_NAME: ${{ secrets.USER_NAME }}
+          CAPITAL_ID: ${{ secrets.CAPITAL_ID }}
+          CAPITAL_GALAXY: ${{ secrets.CAPITAL_GALAXY }}
+          CAPITAL_SYSTEM: ${{ secrets.CAPITAL_SYSTEM }}
+          CAPITAL_PLANET: ${{ secrets.CAPITAL_PLANET }}
