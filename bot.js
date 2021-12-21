@@ -220,17 +220,18 @@ async function collectionResources(planetId) {
 
 // Создаём оборону на планете
 async function createDefenceInPlanet(planet) {
-  const { fleet } = planet;
+  const { fleet, defense } = planet;
 
-  const fleetToId = new Map(
-    fleet.map((structure) => [structure.id, structure])
+  const fleetToId = new Map(fleet.map((unit) => [unit.id, unit]));
+  const defenseToId = new Map(defense.map((unit) => [unit.id, unit]));
+  const [hydraliskCount] = [HYDRALISK].map(
+    (unit) => fleetToId.get(unit.id)?.count ?? 0
   );
-  const [flamingWormCount, hydraliskCount, moleCount, needleTreeCount] = [
+  const [flamingWormCount, moleCount, needleTreeCount] = [
     FLAMING_WORM,
-    HYDRALISK,
     MOLE,
     NEEDLE_TREE,
-  ].map((structure) => fleetToId.get(structure.id)?.count ?? 0);
+  ].map((unit) => defenseToId.get(unit.id)?.count ?? 0);
 
   const isNeedCreateFlamingWorm = flamingWormCount < 127;
   const isNeedCreateHydralisk = hydraliskCount < 100;
@@ -313,28 +314,36 @@ async function createDefence(id, count) {
   });
 }
 
-function calcToCreateStructure(planet, structure) {
-  const resources = new Map(
-    ["metal", "crystal", "deuterium"].map((resourceName) => {
-      let count = 0;
-      let rest = planet[resourceName];
+function calcToCreateStructure(planet, unit) {
+  let resources = {
+    metal: planet.metal,
+    crystal: planet.crystal,
+    deuterium: planet.deuterium,
+  };
+  let count = 0;
 
-      if (planet[resourceName] > 0 && structure[resourceName] > 0) {
-        count = Math.floor(planet[resourceName] / structure[resourceName]);
-      }
+  while (unit.metal > 0 || unit.crystal > 0 || unit.deuterium > 0) {
+    const resourcesNew = {
+      metal: resources.metal - unit.metal,
+      crystal: resources.crystal - unit.crystal,
+      deuterium: resources.deuterium - unit.deuterium,
+    };
 
-      if (count > 0) {
-        rest = Math.floor(planet[resourceName] % structure[resourceName]);
-      }
+    if (
+      resourcesNew.metal > 0 &&
+      resourcesNew.crystal > 0 &&
+      resourcesNew.deuterium > 0
+    ) {
+      count++;
+      resources = { ...resourcesNew };
+    } else {
+      break;
+    }
+  }
 
-      return [resourceName, { count, rest }];
-    })
-  );
   return {
-    count: Math.min(...[...resources].map(([, resource]) => resource.count)),
-    metal: resources.get("metal").rest,
-    crystal: resources.get("crystal").rest,
-    deuterium: resources.get("deuterium").rest,
+    ...resources,
+    count,
   };
 }
 
