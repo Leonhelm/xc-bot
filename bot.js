@@ -27,7 +27,7 @@ await (async () => {
       await sendOnExpedition(planet, buildingsPage);
 
       if (metal >= MAX_CAPITAL_METAL) {
-        await createDefence(planet);
+        await createDefenceInPlanet(planet);
       }
     }
   });
@@ -219,7 +219,7 @@ async function collectionResources(planetId) {
 }
 
 // Создаём оборону на планете
-async function createDefence(planet) {
+async function createDefenceInPlanet(planet) {
   const { fleet } = planet;
 
   const fleetToId = new Map(
@@ -242,7 +242,7 @@ async function createDefence(planet) {
     const calcResult = calcToCreateStructure(planet, structure);
 
     if (calcResult.count > 0) {
-      await createStructure(structure.id, calcResult.count);
+      await createDefence(structure.id, calcResult.count);
       planet.metal = calcResult.metal;
       planet.crystal = calcResult.crystal;
       planet.deuterium = calcResult.deuterium;
@@ -281,7 +281,7 @@ async function sendOnExpedition(planet, page) {
     if (isQueenInReserve) {
       await sendQueenOnExpedition();
     } else {
-      await createStructure(QUEEN.id, 1);
+      await createFleet(QUEEN.id, 1);
       planet.metal -= QUEEN.metal;
       planet.crystal -= QUEEN.crystal;
       planet.deuterium -= QUEEN.deuterium;
@@ -297,9 +297,17 @@ async function sendQueenOnExpedition() {
   });
 }
 
-// Строим какую-либо структуру: корабль, оборону
-async function createStructure(id, count) {
+// Строим корабли
+async function createFleet(id, count) {
   await makeRequestJson("/buildfleet/", {
+    body: `fmenge%5B${id}%5D=${count}`,
+    method: "POST",
+  });
+}
+
+// Строим оборону
+async function createDefence(id, count) {
+  await makeRequestJson("/defense/", {
     body: `fmenge%5B${id}%5D=${count}`,
     method: "POST",
   });
@@ -316,7 +324,7 @@ function calcToCreateStructure(planet, structure) {
       }
 
       if (count > 0) {
-        rest = Math.floor(planet[resourceName] % count);
+        rest = Math.floor(planet[resourceName] % structure[resourceName]);
       }
 
       return [resourceName, { count, rest }];
