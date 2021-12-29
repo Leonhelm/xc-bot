@@ -239,11 +239,18 @@ async function createDefenceInPlanet(planet) {
     !isNeedCreateHydralisk && moleCount <= needleTreeCount;
   const isNeedCreateNeedleTree = !isNeedCreateMole;
 
-  const spendResources = async (structure) => {
+  const spendResources = async (structure, type) => {
     const calcResult = calcToCreateStructure(planet, structure);
 
     if (calcResult.count > 0) {
-      await createDefence(structure.id, calcResult.count);
+      if (type === "defence") {
+        await createDefence(structure.id, calcResult.count);
+      } else if (type === "fleet") {
+        await createFleet(structure.id, calcResult.count);
+      } else {
+        return;
+      }
+
       planet.metal = calcResult.metal;
       planet.crystal = calcResult.crystal;
       planet.deuterium = calcResult.deuterium;
@@ -251,19 +258,19 @@ async function createDefenceInPlanet(planet) {
   };
 
   if (isNeedCreateFlamingWorm) {
-    await spendResources(FLAMING_WORM);
+    await spendResources(FLAMING_WORM, "defence");
   }
 
   if (isNeedCreateHydralisk) {
-    await spendResources(HYDRALISK);
+    await spendResources(HYDRALISK, "fleet");
   }
 
   if (isNeedCreateMole) {
-    await spendResources(MOLE);
+    await spendResources(MOLE, "defence");
   }
 
   if (isNeedCreateNeedleTree) {
-    await spendResources(NEEDLE_TREE);
+    await spendResources(NEEDLE_TREE, "defence");
   }
 }
 
