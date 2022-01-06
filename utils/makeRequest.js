@@ -1,6 +1,6 @@
 import { GAME_URL, TOKEN, USER_NAME } from "../constants.js";
 
-const makeRequest = (url, options) => {
+export const makeRequest = (url, options) => {
   return fetch(`${GAME_URL}${url}`, {
     ...options,
     referrer: GAME_URL,

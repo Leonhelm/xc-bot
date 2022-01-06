@@ -5,6 +5,7 @@ import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { sendOnExpedition } from "./commands/sendOnExpedition.js";
 import { createDefenceInPlanet } from "./commands/createDefenceInPlanet.js";
+import { createEvolution } from "./commands/createEvolution.js";
 
 await takingActionsOnPlanets(async (planet) => {
   const { type, id, metal } = planet;
@@ -19,6 +20,7 @@ await takingActionsOnPlanets(async (planet) => {
     await sendOnExpedition(planet, buildingsPage);
 
     if (metal >= MAX_CAPITAL_METAL) {
+      await createEvolution(planet);
       await createDefenceInPlanet(planet);
     }
   }
