@@ -1,9 +1,8 @@
 import { makeRequestText, makeRequestJson } from "../utils/makeRequest.js";
 
-// Собираем премиум ресурсы на нужную планету planetId
-// и фокусируем глобальное состояние игры на planetId
-export const collectionPremiumResources = async (planetId) => {
-  const officierPage = await makeRequestText(`/officier?cp=${planetId}&re=0`);
+// Собираем премиум ресурсы на текущую планету
+export const collectionPremiumResources = async () => {
+  const officierPage = await makeRequestText(`/officier/`);
   const resourceIndicator = officierPage.split('data-kit="resource"')[1];
   const hasFree =
     resourceIndicator.split("<span><span>")[1].split("</span></span>")[0] ===

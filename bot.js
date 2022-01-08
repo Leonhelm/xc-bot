@@ -21,7 +21,7 @@ await takingActionsOnPlanets(
       const hoursNow = new Date().getHours();
 
       if (hoursNow > 18 && hoursNow < 20) {
-        await collectionPremiumResources(id);
+        await collectionPremiumResources();
       }
 
       await sendOnExpedition(planet, buildingsPage);
