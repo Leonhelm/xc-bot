@@ -4,7 +4,7 @@ import { collectionPremiumResources } from "./commands/collectionPremiumResource
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { sendOnExpedition } from "./commands/sendOnExpedition.js";
-import { createDefenceInPlanet } from "./commands/createDefenceInPlanet.js";
+import { createUnitsInPlanet } from "./commands/createUnitsInPlanet.js";
 import { createEvolution } from "./commands/createEvolution.js";
 
 await takingActionsOnPlanets(
@@ -20,7 +20,7 @@ await takingActionsOnPlanets(
     if (type === "capital") {
       const hoursNow = new Date().getHours();
 
-      if (hoursNow > 18 && hoursNow < 20) {
+      if (hoursNow > 18 && hoursNow < 21) {
         await collectionPremiumResources();
       }
 
@@ -28,7 +28,7 @@ await takingActionsOnPlanets(
 
       if (metal >= MAX_CAPITAL_METAL) {
         await createEvolution(planet);
-        await createDefenceInPlanet(planet);
+        await createUnitsInPlanet(planet);
       }
     }
   },
