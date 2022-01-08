@@ -32,7 +32,21 @@ jobs:
         env:
           TOKEN: ${{ secrets.TOKEN }}
           USER_NAME: ${{ secrets.USER_NAME }}
+          GAME_URL: ${{ secrets.GAME_URL }}
           CAPITAL_ID: ${{ secrets.CAPITAL_ID }}
           CAPITAL_GALAXY: ${{ secrets.CAPITAL_GALAXY }}
           CAPITAL_SYSTEM: ${{ secrets.CAPITAL_SYSTEM }}
           CAPITAL_PLANET: ${{ secrets.CAPITAL_PLANET }}
+          MAX_CAPITAL_METAL: ${{ secrets.MAX_CAPITAL_METAL }}
+          MAX_COLONY_RESOURCES: ${{ secrets.MAX_COLONY_RESOURCES }}
+          MAX_EXPEDITIONS: ${{ secrets.MAX_EXPEDITIONS }}
+          OVERLORD_CAPACITY: ${{ secrets.OVERLORD_CAPACITY }}
+          MAX_OVERLORDS: ${{ secrets.MAX_OVERLORDS }}
+          MAX_PRODUCERS: ${{ secrets.MAX_PRODUCERS }}
+          MAX_SCAVENGERS: ${{ secrets.MAX_SCAVENGERS }}
+          MAX_MUTALISKS: ${{ secrets.MAX_MUTALISKS }}
+          MAX_DREDLISKS: ${{ secrets.MAX_DREDLISKS }}
+          MAX_HYDRALISKS: ${{ secrets.MAX_HYDRALISKS }}
+          MAX_MOLES: ${{ secrets.MAX_MOLES }}
+          MAX_NEEDLE_TREES: ${{ secrets.MAX_NEEDLE_TREES }}
+          MAX_FLAMING_WORMS: ${{ secrets.MAX_FLAMING_WORMS }}
