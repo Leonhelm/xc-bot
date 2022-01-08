@@ -90,8 +90,12 @@ const getPlanetsData = async () => {
 };
 
 // Выполняем действие callbackAction на каждой из планет империи
-export const takingActionsOnPlanets = async (callbackAction) => {
-  const planetsData = await getPlanetsData();
+export const takingActionsOnPlanets = async (
+  callbackAction,
+  sortPlanetsData
+) => {
+  let planetsData = await getPlanetsData();
+  planetsData = sortPlanetsData?.(planetsData) ?? planetsData;
 
   const takingAction = async (index) => {
     const planet = planetsData[index];

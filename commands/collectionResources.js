@@ -1,6 +1,7 @@
 import { makeRequestText, makeRequestJson } from "../utils/makeRequest.js";
 
 // Собираем ресурсы с поверхности планеты planetId
+// и фокусируем глобальное состояние игры на planetId
 export const collectionResources = async (planetId) => {
   const buildingsPage = await makeRequestText(`/buildings?cp=${planetId}&re=0`);
 
