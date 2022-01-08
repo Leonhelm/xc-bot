@@ -16,15 +16,21 @@ const resourcesReduceCreator = (block) => (acc, resource) => {
   return acc;
 };
 
-const researchListMap = (content) => {
+const researchListReduce = (acc, content) => {
   const block = content.split("</a>")[0];
-  const dataPostBody = block.split('data-post="')[1].split('"')[0];
+  const dataPostBody = block?.split?.('data-post="')?.[1]?.split?.('"')?.[0];
+
+  if (!dataPostBody) {
+    return acc;
+  }
+
   const dataPost = dataPostBody.split("&").reduce(dataPostReduce, {});
   const resources = ["metal", "crystal", "deuterium"].reduce(
     resourcesReduceCreator(block),
     {}
   );
-  return { ...resources, dataPost };
+  acc.push({ ...resources, dataPost });
+  return acc;
 };
 
 // Запускает случайную доступную эволюцию
@@ -33,7 +39,7 @@ export const createEvolution = async (planet) => {
   const researchList = researchPage
     .split('<div class="research-tech__allow">')
     .slice(1)
-    .map(researchListMap);
+    .reduce(researchListReduce, []);
 
   if (!researchList.length) {
     return;
