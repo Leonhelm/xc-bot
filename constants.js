@@ -4,6 +4,7 @@ export const USER_NAME = Deno.env.get("USER_NAME");
 export const GAME_URL = "https://xcraft.ru";
 export const MAX_CAPITAL_METAL = 100000;
 export const MAX_COLONY_RESOURCES = 20000;
+export const MAX_EXPEDITIONS = 1;
 
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),

@@ -1,5 +1,5 @@
 import { createFleet } from "./createFleet.js";
-import { CAPITAL, QUEEN } from "../constants.js";
+import { CAPITAL, QUEEN, MAX_EXPEDITIONS } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
 const sendQueenOnExpedition = async () => {
@@ -9,25 +9,31 @@ const sendQueenOnExpedition = async () => {
   });
 };
 
-// Создаём всё необходимое для экспедиции или отправляем экспедицию
+// Создаём всё необходимое для экспедиции или отправляем экспедицию со столицы
 export const sendOnExpedition = async (planet, page) => {
   const fleetInFly = page
     .split("window.jsConfig = ")[1]
     .split("window.iFaceToggles = ")[0];
-  const isQueenInExpedition = fleetInFly.includes("Экспедиция");
+  const queenInExpeditionCount = fleetInFly?.match(/Экспедиция/g)?.length ?? 0;
 
-  if (!isQueenInExpedition) {
-    const isQueenInReserve = planet.fleet.some(
-      (ship) => ship.id === QUEEN.id && ship.count > 0
-    );
+  if (queenInExpeditionCount < MAX_EXPEDITIONS) {
+    const queenInReserveCount =
+      planet.fleet.find((ship) => ship.id === QUEEN.id)?.count ?? 0;
 
-    if (isQueenInReserve) {
+    if (queenInReserveCount > 0) {
       await sendQueenOnExpedition();
-    } else {
+      return;
+    }
+
+    const metal = planet.metal - QUEEN.metal;
+    const crystal = planet.crystal - QUEEN.crystal;
+    const deuterium = planet.deuterium - QUEEN.deuterium;
+
+    if (metal > 0 && crystal > 0 && deuterium > 0) {
       await createFleet(QUEEN.id, 1);
-      planet.metal -= QUEEN.metal;
-      planet.crystal -= QUEEN.crystal;
-      planet.deuterium -= QUEEN.deuterium;
+      planet.metal = metal;
+      planet.crystal = crystal;
+      planet.deuterium = deuterium;
     }
   }
 };
