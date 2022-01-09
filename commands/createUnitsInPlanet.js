@@ -132,9 +132,9 @@ export const createUnitsInPlanet = async (planet) => {
     },
   ].reduce((acc, value) => {
     const { count, isCreate, createFunc } = value;
-    const { minCount = -Infinity } = acc;
+    const { minCount = Infinity } = acc;
 
-    if (count < minCount && isCreate) {
+    if (count < minCount && isCreate && createFunc) {
       return {
         minCount: count,
         createMinUnit: createFunc,
