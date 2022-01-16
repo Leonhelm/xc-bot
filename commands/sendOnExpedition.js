@@ -14,7 +14,7 @@ export const sendOnExpedition = async (planet, page) => {
   const fleetInFly = page
     .split("window.jsConfig = ")[1]
     .split("window.iFaceToggles = ")[0];
-  const queenInExpeditionCount = fleetInFly?.match(/Экспедиция/g)?.length ?? 0;
+  const queenInExpeditionCount = fleetInFly?.match(/Королева/g)?.length ?? 0;
 
   if (queenInExpeditionCount < MAX_EXPEDITIONS) {
     const queenInReserveCount =
