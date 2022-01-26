@@ -7,10 +7,12 @@ export const MAX_COLONY_RESOURCES = 20000;
 export const MAX_EXPEDITIONS = 2;
 
 export const MAX_OVERLORDS = 100;
+export const MAX_SPYS = 12;
 export const MAX_PRODUCERS = 50;
 export const MAX_SCAVENGERS = Infinity;
 export const MAX_MUTALISKS = Infinity;
 export const MAX_DREDLISKS = Infinity;
+export const MAX_GUARDIANS = 10;
 export const MAX_HYDRALISKS = 100;
 export const MAX_MOLES = Infinity;
 export const MAX_NEEDLE_TREES = Infinity;
@@ -39,6 +41,13 @@ export const OVERLORD = {
   capacity: 15000,
 };
 
+export const SPY = {
+  id: 240,
+  metal: 400,
+  crystal: 3000,
+  deuterium: 400,
+};
+
 export const PRODUCER = {
   id: 239,
   metal: 2800,
@@ -65,6 +74,13 @@ export const DREDLISK = {
   metal: 27000,
   crystal: 5000,
   deuterium: 750,
+};
+
+export const GUARDIAN = {
+  id: 241,
+  metal: 50000,
+  crystal: 20000,
+  deuterium: 500,
 };
 
 export const HYDRALISK = {

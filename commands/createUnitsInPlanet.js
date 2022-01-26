@@ -2,19 +2,23 @@ import { createFleet } from "./createFleet.js";
 import { createDefence } from "./createDefence.js";
 import {
   OVERLORD,
+  SPY,
   PRODUCER,
   SCAVENGER,
   MUTALISK,
   DREDLISK,
+  GUARDIAN,
   HYDRALISK,
   MOLE,
   NEEDLE_TREE,
   FLAMING_WORM,
   MAX_OVERLORDS,
+  MAX_SPYS,
   MAX_PRODUCERS,
   MAX_SCAVENGERS,
   MAX_MUTALISKS,
   MAX_DREDLISKS,
+  MAX_GUARDIANS,
   MAX_HYDRALISKS,
   MAX_MOLES,
   MAX_NEEDLE_TREES,
@@ -80,14 +84,23 @@ export const createUnitsInPlanet = async (planet) => {
 
   const [
     overlordCount,
+    spyCount,
     producerCount,
     scavengerCount,
     mutaliskCount,
     dredliskCount,
+    guardianCount,
     hydraliskCount,
-  ] = [OVERLORD, PRODUCER, SCAVENGER, MUTALISK, DREDLISK, HYDRALISK].map(
-    (unit) => fleetToId.get(unit.id)?.count ?? 0
-  );
+  ] = [
+    OVERLORD,
+    SPY,
+    PRODUCER,
+    SCAVENGER,
+    MUTALISK,
+    DREDLISK,
+    GUARDIAN,
+    HYDRALISK,
+  ].map((unit) => fleetToId.get(unit.id)?.count ?? 0);
 
   const [moleCount, needleTreeCount, flamingWormCount] = [
     MOLE,
@@ -96,6 +109,7 @@ export const createUnitsInPlanet = async (planet) => {
   ].map((unit) => defenseToId.get(unit.id)?.count ?? 0);
 
   const isCreateOverlord = overlordCount < MAX_OVERLORDS;
+  const isCreateSpy = spyCount < MAX_SPYS;
   const isCreateProducer = producerCount < MAX_PRODUCERS;
   const isCreateHydralisk = hydraliskCount < MAX_HYDRALISKS;
 
@@ -114,6 +128,11 @@ export const createUnitsInPlanet = async (planet) => {
       count: dredliskCount,
       isCreate: dredliskCount < MAX_DREDLISKS,
       createFunc: () => spendResources(DREDLISK, "fleet", planet),
+    },
+    {
+      count: guardianCount,
+      isCreate: guardianCount < MAX_GUARDIANS,
+      createFunc: () => spendResources(GUARDIAN, "fleet", planet),
     },
     {
       count: moleCount,
@@ -146,6 +165,10 @@ export const createUnitsInPlanet = async (planet) => {
 
   if (isCreateOverlord) {
     await spendResources(OVERLORD, "fleet", planet);
+  }
+
+  if (isCreateSpy) {
+    await spendResources(SPY, "fleet", planet);
   }
 
   if (isCreateProducer) {
