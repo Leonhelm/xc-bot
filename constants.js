@@ -2,8 +2,8 @@ export const TOKEN = Deno.env.get("TOKEN");
 export const USER_NAME = Deno.env.get("USER_NAME");
 
 export const GAME_URL = "https://xcraft.ru";
-export const MAX_CAPITAL_METAL = 300000;
-export const MAX_COLONY_RESOURCES = 30000;
+export const MAX_CAPITAL_METAL = 200000;
+export const MAX_COLONY_RESOURCES = 20000;
 export const MAX_EXPEDITIONS = 2;
 
 export const MAX_OVERLORDS = 0;
