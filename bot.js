@@ -25,9 +25,9 @@ await takingActionsOnPlanets(
       }
 
       await sendOnExpedition(planet, buildingsPage);
+      await createEvolution(planet);
 
       if (metal >= MAX_CAPITAL_METAL) {
-        await createEvolution(planet);
         await createUnitsInPlanet(planet);
       }
     }
