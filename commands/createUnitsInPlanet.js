@@ -58,14 +58,17 @@ const calcToCreateUnit = (planet, unit) => {
   };
 };
 
-const spendResources = async (unit, type, planet) => {
+const spendResources = async (params) => {
+  const { unit, type, planet, limit = Infinity } = params;
   const calcResult = calcToCreateUnit(planet, unit);
 
   if (calcResult.count > 0) {
+    const count = calcResult.count < limit ? calcResult.count : limit;
+
     if (type === "defence") {
-      await createDefence(unit.id, calcResult.count);
+      await createDefence(unit.id, count);
     } else if (type === "fleet") {
-      await createFleet(unit.id, calcResult.count);
+      await createFleet(unit.id, count);
     } else {
       return;
     }
@@ -117,37 +120,79 @@ export const createUnitsInPlanet = async (planet) => {
     {
       count: scavengerCount,
       isCreate: scavengerCount < MAX_SCAVENGERS,
-      createFunc: () => spendResources(SCAVENGER, "fleet", planet),
+      createFunc: () =>
+        spendResources({
+          unit: SCAVENGER,
+          type: "fleet",
+          planet: planet,
+          limit: MAX_SCAVENGERS - scavengerCount,
+        }),
     },
     {
       count: mutaliskCount,
       isCreate: mutaliskCount < MAX_MUTALISKS,
-      createFunc: () => spendResources(MUTALISK, "fleet", planet),
+      createFunc: () =>
+        spendResources({
+          unit: MUTALISK,
+          type: "fleet",
+          planet: planet,
+          limit: MAX_MUTALISKS - mutaliskCount,
+        }),
     },
     {
       count: dredliskCount,
       isCreate: dredliskCount < MAX_DREDLISKS,
-      createFunc: () => spendResources(DREDLISK, "fleet", planet),
+      createFunc: () =>
+        spendResources({
+          unit: DREDLISK,
+          type: "fleet",
+          planet: planet,
+          limit: MAX_DREDLISKS - dredliskCount,
+        }),
     },
     {
       count: guardianCount,
       isCreate: guardianCount < MAX_GUARDIANS,
-      createFunc: () => spendResources(GUARDIAN, "fleet", planet),
+      createFunc: () =>
+        spendResources({
+          unit: GUARDIAN,
+          type: "fleet",
+          planet: planet,
+          limit: MAX_GUARDIANS - guardianCount,
+        }),
     },
     {
       count: moleCount,
       isCreate: moleCount < MAX_MOLES && !isCreateHydralisk,
-      createFunc: () => spendResources(MOLE, "defence", planet),
+      createFunc: () =>
+        spendResources({
+          unit: MOLE,
+          type: "defence",
+          planet: planet,
+          limit: MAX_MOLES - moleCount,
+        }),
     },
     {
       count: needleTreeCount,
       isCreate: needleTreeCount < MAX_NEEDLE_TREES,
-      createFunc: () => spendResources(NEEDLE_TREE, "defence", planet),
+      createFunc: () =>
+        spendResources({
+          unit: NEEDLE_TREE,
+          type: "defence",
+          planet: planet,
+          limit: MAX_NEEDLE_TREES - needleTreeCount,
+        }),
     },
     {
       count: flamingWormCount,
       isCreate: flamingWormCount < MAX_FLAMING_WORMS,
-      createFunc: () => spendResources(FLAMING_WORM, "defence", planet),
+      createFunc: () =>
+        spendResources({
+          unit: FLAMING_WORM,
+          type: "defence",
+          planet: planet,
+          limit: MAX_FLAMING_WORMS - flamingWormCount,
+        }),
     },
   ].reduce((acc, value) => {
     const { count, isCreate, createFunc } = value;
@@ -164,19 +209,39 @@ export const createUnitsInPlanet = async (planet) => {
   }, {});
 
   if (isCreateOverlord) {
-    await spendResources(OVERLORD, "fleet", planet);
+    await spendResources({
+      unit: OVERLORD,
+      type: "fleet",
+      planet: planet,
+      limit: MAX_OVERLORDS - overlordCount,
+    });
   }
 
   if (isCreateSpy) {
-    await spendResources(SPY, "fleet", planet);
+    await spendResources({
+      unit: SPY,
+      type: "fleet",
+      planet: planet,
+      limit: MAX_SPYS - spyCount,
+    });
   }
 
   if (isCreateProducer) {
-    await spendResources(PRODUCER, "fleet", planet);
+    await spendResources({
+      unit: PRODUCER,
+      type: "fleet",
+      planet: planet,
+      limit: MAX_PRODUCERS - producerCount,
+    });
   }
 
   if (isCreateHydralisk) {
-    await spendResources(HYDRALISK, "fleet", planet);
+    await spendResources({
+      unit: HYDRALISK,
+      type: "fleet",
+      planet: planet,
+      limit: MAX_HYDRALISKS - hydraliskCount,
+    });
   }
 
   createMinUnit?.();
