@@ -6,13 +6,13 @@ export const MAX_CAPITAL_METAL = 200000;
 export const MAX_COLONY_RESOURCES = 20000;
 export const MAX_EXPEDITIONS = 2;
 
-export const MAX_OVERLORDS = 100;
+export const MAX_OVERLORDS = 0;
 export const MAX_SPYS = 12;
-export const MAX_PRODUCERS = 50;
+export const MAX_PRODUCERS = 0;
 export const MAX_SCAVENGERS = Infinity;
 export const MAX_MUTALISKS = Infinity;
 export const MAX_DREDLISKS = Infinity;
-export const MAX_GUARDIANS = 10;
+export const MAX_GUARDIANS = 0;
 export const MAX_HYDRALISKS = 100;
 export const MAX_MOLES = Infinity;
 export const MAX_NEEDLE_TREES = Infinity;
