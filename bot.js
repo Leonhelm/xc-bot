@@ -9,6 +9,7 @@ import { createEvolution } from "./commands/createEvolution.js";
 
 await takingActionsOnPlanets(
   async (planet) => {
+    return; // REMOVE
     const { type, id, metal } = planet;
     const buildingsPage = await collectionResources(id);
 
