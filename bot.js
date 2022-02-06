@@ -1,6 +1,6 @@
 import { MAX_CAPITAL_METAL } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
-import { collectionPremiumResources } from "./commands/collectionPremiumResources.js";
+// import { collectionPremiumResources } from "./commands/collectionPremiumResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { sendOnExpedition } from "./commands/sendOnExpedition.js";
@@ -18,11 +18,11 @@ await takingActionsOnPlanets(
     }
 
     if (type === "capital") {
-      const hoursNow = new Date().getHours();
+//       const hoursNow = new Date().getHours();
 
-      if (hoursNow > 18 && hoursNow < 21) {
-        await collectionPremiumResources();
-      }
+//       if (hoursNow > 18 && hoursNow < 21) {
+//         await collectionPremiumResources();
+//       }
 
       await sendOnExpedition(planet, buildingsPage);
       await createEvolution(planet);
