@@ -18,11 +18,11 @@ await takingActionsOnPlanets(
     }
 
     if (type === "capital") {
-//       const hoursNow = new Date().getHours();
-
-//       if (hoursNow > 18 && hoursNow < 21) {
-//         await collectionPremiumResources();
-//       }
+      // const hoursNow = new Date().getHours();
+      //
+      // if (hoursNow > 18 && hoursNow < 21) {
+      //   await collectionPremiumResources();
+      // }
 
       await sendOnExpedition(planet, buildingsPage);
       await createEvolution(planet);

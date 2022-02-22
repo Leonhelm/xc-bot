@@ -27,7 +27,7 @@ const getPlanetsData = async () => {
       .forEach((content, index) => {
         const recourceCount = +content
           .split("<br>")[0]
-          .replace("&nbsp;", "")
+          .replaceAll("&nbsp;", "")
           .trim();
 
         planetsData[index] = {
