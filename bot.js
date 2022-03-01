@@ -25,10 +25,10 @@ await takingActionsOnPlanets(
       // }
 
       await sendOnExpedition(planet, buildingsPage);
-//       await createEvolution(planet);
+      await createEvolution(planet);
 
       if (metal >= MAX_CAPITAL_METAL) {
-//         await createUnitsInPlanet(planet);
+        await createUnitsInPlanet(planet);
       }
     }
   },
