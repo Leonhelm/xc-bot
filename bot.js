@@ -1,4 +1,4 @@
-import { MAX_CAPITAL_METAL } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 // import { collectionPremiumResources } from "./commands/collectionPremiumResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
@@ -9,7 +9,7 @@ import { createEvolution } from "./commands/createEvolution.js";
 
 await takingActionsOnPlanets(
   async (planet) => {
-    const { type, id, metal } = planet;
+    const { type, id, metal, crystal, deuterium } = planet;
     const buildingsPage = await collectionResources(id);
 
     if (type === "colony") {
@@ -27,7 +27,7 @@ await takingActionsOnPlanets(
       await sendOnExpedition(planet, buildingsPage);
       await createEvolution(planet);
 
-      if (metal >= MAX_CAPITAL_METAL) {
+      if (metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES) {
         await createUnitsInPlanet(planet);
       }
     }
