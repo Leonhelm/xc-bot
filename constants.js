@@ -8,7 +8,7 @@ export const MAX_EXPEDITIONS = 3;
 
 export const MAX_OVERLORDS = 0;
 export const MAX_SPYS = 18;
-export const MAX_PRODUCERS = 300;
+export const MAX_PRODUCERS = 0;
 export const MAX_SCAVENGERS = Infinity;
 export const MAX_MUTALISKS = Infinity;
 export const MAX_DREDLISKS = Infinity;
