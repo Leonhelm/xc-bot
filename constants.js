@@ -6,7 +6,7 @@ export const MAX_CAPITAL_RESOURCES = 150000;
 export const MAX_COLONY_RESOURCES = 20000;
 export const MAX_EXPEDITIONS = 3;
 
-export const MAX_OVERLORDS = 600;
+export const MAX_OVERLORDS = 0;
 export const MAX_SPYS = 18;
 export const MAX_PRODUCERS = 300;
 export const MAX_SCAVENGERS = Infinity;
