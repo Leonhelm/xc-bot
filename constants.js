@@ -4,7 +4,7 @@ export const USER_NAME = Deno.env.get("USER_NAME");
 export const GAME_URL = "https://xcraft.ru";
 export const MAX_CAPITAL_RESOURCES = 3_000_000;
 export const MAX_COLONY_RESOURCES = 100_000;
-export const MAX_EXPEDITIONS = 4; // 3 после 14 июля 2022
+export const MAX_EXPEDITIONS = +new Date() > +new Date('Jul 14, 2022 23:59:59') ? 3 : 4;
 
 export const MAX_OVERLORDS = 0;
 export const MAX_SPYS = 18;
