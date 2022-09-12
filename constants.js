@@ -8,7 +8,7 @@ export const MAX_EXPEDITIONS = +new Date() > +new Date('Jul 14, 2022 23:59:59') 
 
 export const MAX_OVERLORDS = 0;
 export const MAX_SPYS = 18;
-export const MAX_PRODUCERS = 300;
+export const MAX_PRODUCERS = Infinity;
 export const MAX_SCAVENGERS = Infinity;
 export const MAX_MUTALISKS = Infinity;
 export const MAX_DREDLISKS = Infinity;
