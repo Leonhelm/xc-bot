@@ -6,7 +6,7 @@ export const MAX_CAPITAL_RESOURCES = 3_000_000;
 export const MAX_COLONY_RESOURCES = 100_000;
 export const MAX_EXPEDITIONS = +new Date() > +new Date('Jul 14, 2022 23:59:59') ? 3 : 4;
 
-export const MAX_OVERLORDS = 500;
+export const MAX_OVERLORDS = 600;
 export const MAX_SPYS = 18;
 export const MAX_PRODUCERS = 2000;
 export const MAX_SCAVENGERS = Infinity;
