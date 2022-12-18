@@ -1,4 +1,4 @@
-import { CHECKED_СOORDINATES_COUNT, PANKOR } from "../constants.js";
+import { CHECKED_СOORDINATES_COUNT, PANKOR, PRODUCER } from "../constants.js";
 import { getRandom } from "../utils/getRandom.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
@@ -42,22 +42,43 @@ const getPirates = async (galaxy, system) => {
                 galaxy: gal,
                 system: sys,
                 planet: plan,
+                fleetId: +object.fleetIds[0]
             };
         }).filter(Boolean)?.[0]
     }).filter(Boolean)
 
-    return pirates
+    return pirates ?? []
 }
 
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet) => {
-    const { galaxy, system } = planet;
+    const { galaxy, system, fleet } = planet;
+    const pirateMaxPower = 300;
+    const pankorCount = 1;
+    const producerCount = 20;
+    const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
+    const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
-    // сначала проверить наличие на планете панкоров и добытчиков
+    if (pankorsInPlanet < pankorCount || producersInPlanet < producerCount) {
+        return false
+    }
 
     const pirates = await getPirates(galaxy, system);
+    const suitablePirate = pirates.reduce((acc, pirate) => {
+        if (pirate.power <= pirateMaxPower && pirate.power > acc?.power) {
+            return pirate;
+        }
+        return acc;
+    })
 
-    console.log(pirates)
+    if (!suitablePirate) {
+        return false;
+    }
 
-    return true
+    const response = await makeRequestJson("/fleet/send/", {
+        body: `ship%5B${PRODUCER.id}%5D=${producerCount}&ship%5B${PANKOR.id}%5D=${pankorCount}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=3&hyd=0&speed=10&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
+        method: "POST",
+    });
+
+    return !response?.error;
 }
