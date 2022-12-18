@@ -70,7 +70,6 @@ export const pirateRecycling = async (planet) => {
         }
         return acc;
     }, null)
-    console.log(pirates, suitablePirate)
 
     if (!suitablePirate) {
         return false;
