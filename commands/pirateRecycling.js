@@ -64,12 +64,12 @@ export const pirateRecycling = async (planet) => {
     }
 
     const pirates = await getPirates(galaxy, system);
-    const suitablePirate = pirates.reduce((acc, pirate) => {
+    const suitablePirate = pirates?.reduce((acc, pirate) => {
         if (pirate.power <= pirateMaxPower && pirate.power > acc?.power) {
             return pirate;
         }
         return acc;
-    })
+    }, null)
 
     if (!suitablePirate) {
         return false;
