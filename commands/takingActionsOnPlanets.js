@@ -1,4 +1,5 @@
 import { makeRequestText } from "../utils/makeRequest.js";
+import { CAPITAL } from "../constants.js";
 
 const getPlanetsData = async () => {
   const imperiumPage = await makeRequestText("/imperium/");
@@ -8,10 +9,17 @@ const getPlanetsData = async () => {
     .slice(1)
     .map((content, index) => {
       const planetId = +content.split("/overview/?cp=")[1].split("&re=0")[0];
+      const type = String(planetId) === String(CAPITAL.id) ? "capital" : "colony";
+      const galaxy = +content.split("galaxy=")[1].split('&')[0];
+      const system = +content.split("system=")[1].split('&')[0];
+      const planet = +content.split("planet=")[1].split('"')[0];
 
       return {
         id: planetId,
-        type: index === 0 ? "capital" : "colony",
+        type,
+        galaxy,
+        system,
+        planet,
         metal: 0,
         crystal: 0,
         deuterium: 0,

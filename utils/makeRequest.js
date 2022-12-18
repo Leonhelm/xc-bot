@@ -20,11 +20,12 @@ export const makeRequestText = async (url, options) => {
 };
 
 export const makeRequestJson = async (url, options) => {
-  await makeRequest(url, {
+  const response = await makeRequest(url, {
     ...options,
     headers: {
       ...options?.headers,
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
   });
+  return response.json()
 };

@@ -5,6 +5,7 @@ export const GAME_URL = "https://xcraft.ru";
 export const MAX_CAPITAL_RESOURCES = 3_000_000;
 export const MAX_COLONY_RESOURCES = 100_000;
 export const MAX_EXPEDITIONS = +new Date() > +new Date('Jan 17, 2023 23:59:59') ? 3 : 4;
+export const CHECKED_СOORDINATES_COUNT = 5;
 
 export const MAX_OVERLORDS = 0;
 export const MAX_SPYS = 18;
@@ -82,6 +83,13 @@ export const GUARDIAN = {
   crystal: 20000,
   deuterium: 500,
 };
+
+export const PANKOR = {
+  id: 245,
+  metal: 1_000_000,
+  crystal: 200_000,
+  deuterium: 150_000,
+}
 
 export const HYDRALISK = {
   id: 237,
