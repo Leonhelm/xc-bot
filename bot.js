@@ -1,4 +1,4 @@
-import { MAX_CAPITAL_RESOURCES } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES, MAX_PIRATE_RECYCLING } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
@@ -7,7 +7,7 @@ import { createUnitsInPlanet } from "./commands/createUnitsInPlanet.js";
 import { createEvolution } from "./commands/createEvolution.js";
 import { pirateRecycling } from "./commands/pirateRecycling.js";
 
-let isSendPirateRecycling = false;
+let pirateRecyclingCount = 0;
 
 await takingActionsOnPlanets(
   async (planet) => {
@@ -17,8 +17,12 @@ await takingActionsOnPlanets(
     if (type === "colony") {
       const isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
-      if (!isSendResourcesToCapital && !isSendPirateRecycling) {
-        isSendPirateRecycling = await pirateRecycling(planet);
+      if (!isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
+        const isSendPirateRecycling = await pirateRecycling(planet);
+
+        if (isSendPirateRecycling) {
+          pirateRecyclingCount++;
+        }
       }
 
       return;

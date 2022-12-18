@@ -5,6 +5,7 @@ export const GAME_URL = "https://xcraft.ru";
 export const MAX_CAPITAL_RESOURCES = 3_000_000;
 export const MAX_COLONY_RESOURCES = 100_000;
 export const MAX_EXPEDITIONS = +new Date() > +new Date('Jan 17, 2023 23:59:59') ? 3 : 4;
+export const MAX_PIRATE_RECYCLING = 3;
 export const CHECKED_СOORDINATES_COUNT = 3;
 
 export const MAX_OVERLORDS = 0;
