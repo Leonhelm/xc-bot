@@ -15,10 +15,9 @@ await takingActionsOnPlanets(
     const buildingsPage = await collectionResources(id);
 
     if (type === "colony") {
-      await sendResourcesToCapital(planet);
+      const isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
-      // Если отправляем ресурсы в столицу - не посылаем флот в атаку
-      if (!isSendPirateRecycling) {
+      if (!isSendResourcesToCapital && !isSendPirateRecycling) {
         isSendPirateRecycling = await pirateRecycling(planet);
       }
 

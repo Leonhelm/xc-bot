@@ -2,12 +2,12 @@ import { CHECKED_СOORDINATES_COUNT, PANKOR } from "../constants.js";
 import { getRandom } from "../utils/getRandom.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
-const getCheckedСoordinates = (count, galaxy) => {
+const getCheckedСoordinates = (count, galaxy, system) => {
     const arr = [];
 
     while (arr.length < count) {
         const galaxyChecked = getRandom(+galaxy - 1, +galaxy + 1);
-        const systemChecked = getRandom(1, 9);
+        const systemChecked = getRandom(+system - 1, +system + 1);
         const planetChecked = getRandom(1, 9);
         const coordinates = JSON.stringify([galaxyChecked, systemChecked, planetChecked])
 
@@ -19,22 +19,31 @@ const getCheckedСoordinates = (count, galaxy) => {
     return arr.map(JSON.parse)
 }
 
-const getPirates = async (galaxy) => {
-    const checkedСoordinates = getCheckedСoordinates(CHECKED_СOORDINATES_COUNT, galaxy);
+const getPirates = async (galaxy, system) => {
+    const checkedСoordinates = getCheckedСoordinates(CHECKED_СOORDINATES_COUNT, galaxy, system);
 
     const coordinatesInfo = await Promise.all(checkedСoordinates.map(([gal, sys, plan]) => makeRequestJson('/fleet/send/info/', {
         body: `fleet_id=0&query_planet_id=0&galaxy=${gal}&system=${sys}&planet=${plan}&type=1`,
         method: "POST",
     })))
 
-    const pirates = coordinatesInfo.map((info) => {
+    const pirates = coordinatesInfo.map((info, key) => {
+        const [gal, sys, plan] = checkedСoordinates[key]
+
         return info?.objects.map(object => {
-            if (!object?.isSabAttack || !object?.fleetIds?.length === 1) {
+            if (!object?.isSabAttack || object?.fleetIds?.length !== 1) {
                 return false;
             }
 
-            // const pirat = 
-        }).filter(Boolean)
+            const power = +object.visual.split('<span class="fleet">')[1].split('</span>')[0];
+
+            return {
+                power,
+                galaxy: gal,
+                system: sys,
+                planet: plan,
+            };
+        }).filter(Boolean)?.[0]
     }).filter(Boolean)
 
     return pirates
@@ -42,11 +51,11 @@ const getPirates = async (galaxy) => {
 
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet) => {
-    const { galaxy } = planet;
+    const { galaxy, system } = planet;
 
     // сначала проверить наличие на планете панкоров и добытчиков
 
-    const pirates = await getPirates(galaxy);
+    const pirates = await getPirates(galaxy, system);
 
     console.log(pirates)
 
