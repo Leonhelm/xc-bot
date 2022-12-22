@@ -55,7 +55,7 @@ export const pirateRecycling = async (planet) => {
     const { galaxy, system, fleet } = planet;
     const pirateMaxPower = 300;
     const pankorCount = 1;
-    const producerCount = 20;
+    const producerCount = 50;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
