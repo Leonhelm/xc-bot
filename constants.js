@@ -10,15 +10,15 @@ export const CHECKED_СOORDINATES_COUNT = 3;
 
 export const MAX_OVERLORDS = 0;
 export const MAX_SPYS = 18;
-export const MAX_PRODUCERS = 0;
+export const MAX_PRODUCERS = Infinity;
 export const MAX_SCAVENGERS = 0;
 export const MAX_MUTALISKS = 0;
 export const MAX_DREDLISKS = 0;
 export const MAX_GUARDIANS = 0;
-export const MAX_HYDRALISKS = 100;
-export const MAX_MOLES = Infinity;
-export const MAX_NEEDLE_TREES = Infinity;
-export const MAX_FLAMING_WORMS = 127;
+export const MAX_HYDRALISKS = 0; // 100
+export const MAX_MOLES = 0; // Infinity
+export const MAX_NEEDLE_TREES = 0; // Infinity
+export const MAX_FLAMING_WORMS = 0; // 127
 
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),
