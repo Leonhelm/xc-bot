@@ -51,7 +51,7 @@ const getPirates = async (galaxy, system) => {
 }
 
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
-export const pirateRecycling = async (planet) => {
+export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
     const pirateMaxPower = 300;
     const pankorCount = 1;
@@ -60,7 +60,9 @@ export const pirateRecycling = async (planet) => {
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
     if (pankorsInPlanet < pankorCount || producersInPlanet < producerCount) {
-        return false
+        return {
+            isSend: false,
+        }
     }
 
     const pirates = await getPirates(galaxy, system);
@@ -71,8 +73,10 @@ export const pirateRecycling = async (planet) => {
         return acc;
     }, null)
 
-    if (!suitablePirate) {
-        return false;
+    if (!suitablePirate || pirateFleetBlackList.includes(suitablePirate?.fleetId)) {
+        return {
+            isSend: false,
+        };
     }
 
     const response = await makeRequestJson("/fleet/send/", {
@@ -80,5 +84,8 @@ export const pirateRecycling = async (planet) => {
         method: "POST",
     });
 
-    return !response?.error;
+    return {
+        isSend: !response?.error,
+        pirateFleetId: suitablePirate.fleetId
+    };
 }

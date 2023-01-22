@@ -8,6 +8,7 @@ import { createEvolution } from "./commands/createEvolution.js";
 import { pirateRecycling } from "./commands/pirateRecycling.js";
 
 let pirateRecyclingCount = 0;
+const pirateFleetBlackList = [];
 
 await takingActionsOnPlanets(
   async (planet) => {
@@ -18,10 +19,14 @@ await takingActionsOnPlanets(
       const isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
       if (!isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
-        const isSendPirateRecycling = await pirateRecycling(planet);
+        const { isSend, pirateFleetId } = await pirateRecycling(planet);
 
-        if (isSendPirateRecycling) {
+        if (isSend) {
           pirateRecyclingCount++;
+
+          if (pirateFleetId) {
+            pirateFleetBlackList.push(pirateFleetId);
+          }
         }
       }
 
