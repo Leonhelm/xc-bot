@@ -31,18 +31,28 @@ const getPirates = async (galaxy, system) => {
         const [gal, sys, plan] = checkedСoordinates[key]
 
         return info?.objects.map(object => {
-            if (!object?.isSabAttack || object?.fleetIds?.length !== 1) {
+            if (object?.isGroupFleet || !object?.visual) {
                 return false;
             }
 
-            const power = +object.visual.split('<span class="fleet">')[1].split('</span>')[0];
+            const fleetId = +object.visual.split('data-fleet-id="')[1]?.split('"')[0];
+
+            if (!fleetId || Number.isNaN(fleetId)) {
+                return false;
+            }
+
+            const power = +object.visual.split('<span class="fleet">')[1]?.split('</span>')[0];
+
+            if (!power || Number.isNaN(power)) {
+                return false;
+            }
 
             return {
                 power,
                 galaxy: gal,
                 system: sys,
                 planet: plan,
-                fleetId: +object.fleetIds[0]
+                fleetId,
             };
         }).filter(Boolean)?.[0]
     }).filter(Boolean)
@@ -67,13 +77,13 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
 
     const pirates = await getPirates(galaxy, system);
     const suitablePirate = pirates?.reduce((acc, pirate) => {
-        if (pirate.power <= pirateMaxPower && pirate.power > (acc?.power ?? 0)) {
+        if (!pirateFleetBlackList.includes(pirate.fleetId) && pirate.power <= pirateMaxPower && pirate.power > (acc?.power ?? 0)) {
             return pirate;
         }
         return acc;
     }, null)
 
-    if (!suitablePirate || pirateFleetBlackList.includes(suitablePirate?.fleetId)) {
+    if (!suitablePirate) {
         return {
             isSend: false,
         };
