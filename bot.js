@@ -19,14 +19,10 @@ await takingActionsOnPlanets(
       const isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
       if (!isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
-        const { isSend, pirateFleetId } = await pirateRecycling(planet);
+        const { isSend } = await pirateRecycling(planet, pirateFleetBlackList);
 
         if (isSend) {
           pirateRecyclingCount++;
-
-          if (pirateFleetId) {
-            pirateFleetBlackList.push(pirateFleetId);
-          }
         }
       }
 

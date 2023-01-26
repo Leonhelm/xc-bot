@@ -94,8 +94,9 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
         method: "POST",
     });
 
+    pirateFleetBlackList.push(suitablePirate.fleetId);
+
     return {
         isSend: !response?.error,
-        pirateFleetId: suitablePirate.fleetId
     };
 }

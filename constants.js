@@ -57,11 +57,28 @@ export const PRODUCER = {
   deuterium: 50,
 };
 
+// Баклуша
+export const CORMORANT = {
+  id: 232,
+  metal: 1800,
+  crystal: 2200,
+  deuterium: 50,
+};
+
+// Падальщик
 export const SCAVENGER = {
   id: 233,
   metal: 2400,
   crystal: 1600,
   deuterium: 100,
+};
+
+// Плеть
+export const WHIP = {
+  id: 234,
+  metal: 100,
+  crystal: 150,
+  deuterium: 900,
 };
 
 export const MUTALISK = {
