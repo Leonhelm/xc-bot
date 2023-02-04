@@ -90,7 +90,7 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     }
 
     const response = await makeRequestJson("/fleet/send/", {
-        body: `ship%5B${PRODUCER.id}%5D=${producerCount}&ship%5B${PANKOR.id}%5D=${eaterCount}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=3&hyd=0&speed=10&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
+        body: `ship%5B${PRODUCER.id}%5D=${producerCount}&ship%5B${EATER.id}%5D=${eaterCount}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=3&hyd=0&speed=10&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
         method: "POST",
     });
 
