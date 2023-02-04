@@ -65,7 +65,7 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
     const pirateMaxPower = 300;
     const eaterCount = 5;
-    const producerCount = 15;
+    const producerCount = 10;
     const eatersInPlanet = fleet.find(f => f.id === EATER.id)?.count;
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
