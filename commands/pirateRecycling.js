@@ -63,7 +63,7 @@ const getPirates = async (galaxy, system) => {
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
-    const pirateMaxPower = 300;
+    const pirateMaxPower = 350;
     const eaterCount = 5;
     const producerCount = 10;
     const eatersInPlanet = fleet.find(f => f.id === EATER.id)?.count;
