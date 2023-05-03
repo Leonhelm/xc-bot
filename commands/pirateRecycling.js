@@ -6,8 +6,8 @@ const getCheckedСoordinates = (count, galaxy, system) => {
     const arr = [];
 
     while (arr.length < count) {
-        const galaxyChecked = getRandom(+galaxy - 1, +galaxy + 1);
-        const systemChecked = getRandom(+system - 1, +system + 1);
+        const galaxyChecked = getRandom(+galaxy - 2, +galaxy + 2);
+        const systemChecked = getRandom(+system - 2, +system + 2);
         const planetChecked = getRandom(1, 9);
         const coordinates = JSON.stringify([galaxyChecked, systemChecked, planetChecked])
 
@@ -63,7 +63,7 @@ const getPirates = async (galaxy, system) => {
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
-    const pirateMaxPower = 300;
+    const pirateMaxPower = 400;
     const eaterCount = 5;
     const producerCount = 10;
     const eatersInPlanet = fleet.find(f => f.id === EATER.id)?.count;
