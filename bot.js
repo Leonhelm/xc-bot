@@ -3,9 +3,8 @@ import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { sendOnExpedition } from "./commands/sendOnExpedition.js";
-import { createUnitsInPlanet } from "./commands/createUnitsInPlanet.js";
-import { createEvolution } from "./commands/createEvolution.js";
 import { pirateRecycling } from "./commands/pirateRecycling.js";
+import { buyHydarian } from "./commands/buyHydarian.js";
 
 let pirateRecyclingCount = 0;
 const pirateFleetBlackList = [];
@@ -31,10 +30,9 @@ await takingActionsOnPlanets(
 
     if (type === "capital") {
       await sendOnExpedition(planet, buildingsPage);
-      await createEvolution(planet);
 
       if (metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES) {
-        await createUnitsInPlanet(planet);
+        await buyHydarian(planet);
       }
     }
   },
