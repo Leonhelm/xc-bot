@@ -7,7 +7,6 @@ export const MAX_COLONY_RESOURCES = 75_000;
 export const MAX_EXPEDITIONS = 3;
 export const MAX_PIRATE_RECYCLING = 3;
 export const CHECKED_СOORDINATES_COUNT = 5;
-export const MIN_HYDARIAN_BUY = 10;
 
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),

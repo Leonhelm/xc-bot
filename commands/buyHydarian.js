@@ -1,5 +1,4 @@
-import { makeRequestText } from "../utils/makeRequest.js";
-import { MIN_HYDARIAN_BUY } from "../constants.js";
+import { makeRequestText, makeRequestJson } from "../utils/makeRequest.js";
 
 // Покупаем хайды на бирже за ресурсы
 export const buyHydarian = async (planet) => {
@@ -22,14 +21,33 @@ export const buyHydarian = async (planet) => {
 
             const hydarian = +rawOffer.split('">').at(0).trim();
             const commission = +rawOffer.split("<span class='hydarian res-icon'>").at(1).split("</span>").at(0).trim();
+            const benefit = hydarian / commission;
 
-            return {
-                hydarian,
-                commission,
-                benefit: hydarian / commission,
-            };
+            if (isNaN(benefit) || benefit < 6) {
+                return;
+            }
+
+            const token = +rawOffer.split('data-post-id="').at(1).split('"').at(0).trim();
+
+            if (isNaN(token)) {
+                return;
+            }
+
+            return { benefit, token };
         }).filter(Boolean));
     }
 
-    console.log(offers)
+    if (!offers.length) {
+        return;
+    }
+
+    const bestOffer = Math.max(...offers.map(offer => offer.benefit));
+    const { token } = offers.find(offer => offer.benefit === bestOffer) || {};
+
+    if (token) {
+        await makeRequestJson("/dendrarium/buy/", {
+            body: `pid=${token}&bwd=0`,
+            method: "POST",
+        });
+    }
 }
