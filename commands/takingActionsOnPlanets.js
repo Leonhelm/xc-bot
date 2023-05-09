@@ -7,7 +7,7 @@ const getPlanetsData = async () => {
   const planetsData = imperiumPage
     .split('class="planet-bg"')
     .slice(1)
-    .map((content, index) => {
+    .map((content) => {
       const planetId = +content.split("/overview/?cp=")[1].split("&re=0")[0];
       const type = String(planetId) === String(CAPITAL.id) ? "capital" : "colony";
       const galaxy = +content.split("galaxy=")[1].split('&')[0];

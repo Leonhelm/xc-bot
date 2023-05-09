@@ -12,6 +12,7 @@ const pirateFleetBlackList = [];
 await takingActionsOnPlanets(
   async (planet) => {
     const { type, id, metal, crystal, deuterium } = planet;
+
     const buildingsPage = await collectionResources(id);
 
     if (type === "colony") {
