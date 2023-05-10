@@ -32,7 +32,10 @@ await takingActionsOnPlanets(
     if (type === "capital") {
       await sendOnExpedition(planet, buildingsPage);
 
-      if (metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES) {
+      const isEveryFourthHour = (new Date().getHours() % 4) === 0;
+      const isThereSurplusResources = metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES;
+
+      if (isEveryFourthHour && isThereSurplusResources) {
         await buyHydarian(planet);
       }
     }
