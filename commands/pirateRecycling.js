@@ -63,6 +63,7 @@ const getPirates = async (galaxy, system) => {
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
+    const pirateMinPower = 100;
     const pirateMaxPower = 750;
     const pankorCount = 1;
     const producerCount = 15;
@@ -77,7 +78,12 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
 
     const pirates = await getPirates(galaxy, system);
     const suitablePirate = pirates?.reduce((acc, pirate) => {
-        if (!pirateFleetBlackList.includes(pirate.fleetId) && pirate.power <= pirateMaxPower && pirate.power > (acc?.power ?? 0)) {
+        const isInBlackList = pirateFleetBlackList.includes(pirate.fleetId);
+        const isMinPower = pirate.power >= pirateMinPower;
+        const isMaxPower = pirate.power <= pirateMaxPower;
+        const isMostPowerful = pirate.power > (acc?.power ?? 0);
+
+        if (!isInBlackList && isMinPower && isMaxPower && isMostPowerful) {
             return pirate;
         }
         return acc;
