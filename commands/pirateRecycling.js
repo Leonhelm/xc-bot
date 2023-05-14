@@ -63,10 +63,10 @@ const getPirates = async (galaxy, system) => {
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
-    const pirateMinPower = 100;
-    const pirateMaxPower = 750;
-    const pankorCount = 1;
-    const producerCount = 15;
+    const pirateMinPower = 150;
+    const pirateMaxPower = 1350;
+    const pankorCount = 2;
+    const producerCount = 30;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
