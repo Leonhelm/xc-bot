@@ -64,7 +64,7 @@ const getPirates = async (galaxy, system) => {
 export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
     const pirateMinPower = 150;
-    const pirateMaxPower = 1350;
+    const pirateMaxPower = 1500;
     const pankorCount = 2;
     const producerCount = 30;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
