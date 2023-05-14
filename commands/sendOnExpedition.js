@@ -11,29 +11,31 @@ const sendQueenOnExpedition = async () => {
 
 // Создаём всё необходимое для экспедиции или отправляем экспедицию со столицы
 export const sendOnExpedition = async (planet, page) => {
-  const fleetInFly = page
-    .split("window.jsConfig = ")[1]
-    .split("window.iFaceToggles = ")[0];
-  const queenInExpeditionCount = fleetInFly?.match(/Королева/g)?.length ?? 0;
+  try {
+    const fleetInFly = page
+      .split("window.jsConfig = ")[1]
+      .split("window.iFaceToggles = ")[0];
+    const queenInExpeditionCount = fleetInFly?.match(/Королева/g)?.length ?? 0;
 
-  if (queenInExpeditionCount < MAX_EXPEDITIONS) {
-    const queenInReserveCount =
-      planet.fleet.find((ship) => ship.id === QUEEN.id)?.count ?? 0;
+    if (queenInExpeditionCount < MAX_EXPEDITIONS) {
+      const queenInReserveCount =
+        planet.fleet.find((ship) => ship.id === QUEEN.id)?.count ?? 0;
 
-    if (queenInReserveCount > 0) {
-      await sendQueenOnExpedition();
-      return;
+      if (queenInReserveCount > 0) {
+        await sendQueenOnExpedition();
+        return;
+      }
+
+      const metal = planet.metal - QUEEN.metal;
+      const crystal = planet.crystal - QUEEN.crystal;
+      const deuterium = planet.deuterium - QUEEN.deuterium;
+
+      if (metal > 0 && crystal > 0 && deuterium > 0) {
+        await createFleet(QUEEN.id, 1);
+        planet.metal = metal;
+        planet.crystal = crystal;
+        planet.deuterium = deuterium;
+      }
     }
-
-    const metal = planet.metal - QUEEN.metal;
-    const crystal = planet.crystal - QUEEN.crystal;
-    const deuterium = planet.deuterium - QUEEN.deuterium;
-
-    if (metal > 0 && crystal > 0 && deuterium > 0) {
-      await createFleet(QUEEN.id, 1);
-      planet.metal = metal;
-      planet.crystal = crystal;
-      planet.deuterium = deuterium;
-    }
-  }
+  } catch { }
 };
