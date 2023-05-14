@@ -20,44 +20,48 @@ const getCheckedСoordinates = (count, galaxy, system) => {
 }
 
 const getPirates = async (galaxy, system) => {
-    const checkedСoordinates = getCheckedСoordinates(CHECKED_СOORDINATES_COUNT, galaxy, system);
+    try {
+        const checkedСoordinates = getCheckedСoordinates(CHECKED_СOORDINATES_COUNT, galaxy, system);
 
-    const coordinatesInfo = await Promise.all(checkedСoordinates.map(([gal, sys, plan]) => makeRequestJson('/fleet/send/info/', {
-        body: `fleet_id=0&query_planet_id=0&galaxy=${gal}&system=${sys}&planet=${plan}&type=1`,
-        method: "POST",
-    })))
+        const coordinatesInfo = await Promise.all(checkedСoordinates.map(([gal, sys, plan]) => makeRequestJson('/fleet/send/info/', {
+            body: `fleet_id=0&query_planet_id=0&galaxy=${gal}&system=${sys}&planet=${plan}&type=1`,
+            method: "POST",
+        })));
 
-    const pirates = coordinatesInfo.map((info, key) => {
-        const [gal, sys, plan] = checkedСoordinates[key]
+        const pirates = coordinatesInfo.map((info, key) => {
+            const [gal, sys, plan] = checkedСoordinates[key]
 
-        return info?.objects.map(object => {
-            if (object?.isGroupFleet || !object?.visual) {
-                return false;
-            }
+            return info?.objects.map(object => {
+                if (object?.isGroupFleet || !object?.visual) {
+                    return false;
+                }
 
-            const fleetId = +object.visual.split('data-fleet-id="')[1]?.split('"')[0];
+                const fleetId = +object.visual.split('data-fleet-id="')[1]?.split('"')[0];
 
-            if (!fleetId || Number.isNaN(fleetId)) {
-                return false;
-            }
+                if (!fleetId || Number.isNaN(fleetId)) {
+                    return false;
+                }
 
-            const power = +object.visual.split('<span class="fleet">')[1]?.split('</span>')[0];
+                const power = +object.visual.split('<span class="fleet">')[1]?.split('</span>')[0];
 
-            if (!power || Number.isNaN(power)) {
-                return false;
-            }
+                if (!power || Number.isNaN(power)) {
+                    return false;
+                }
 
-            return {
-                power,
-                galaxy: gal,
-                system: sys,
-                planet: plan,
-                fleetId,
-            };
-        }).filter(Boolean)?.[0]
-    }).filter(Boolean)
+                return {
+                    power,
+                    galaxy: gal,
+                    system: sys,
+                    planet: plan,
+                    fleetId,
+                };
+            }).filter(Boolean)?.[0]
+        }).filter(Boolean)
 
-    return pirates ?? []
+        return pirates ?? []
+    } catch {
+        return [];
+    }
 }
 
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
