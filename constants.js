@@ -3,7 +3,7 @@ export const USER_NAME = Deno.env.get("USER_NAME");
 
 export const GAME_URL = "https://xcraft.ru";
 export const MAX_CAPITAL_RESOURCES = 1_500_000;
-export const MAX_COLONY_RESOURCES = 70_000;
+export const MAX_COLONY_RESOURCES = 60_000;
 export const MAX_EXPEDITIONS = 3;
 export const MAX_PIRATE_RECYCLING = 3;
 export const CHECKED_СOORDINATES_COUNT = 9;
