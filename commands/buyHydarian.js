@@ -23,7 +23,7 @@ export const buyHydarian = async (planet) => {
             const commission = +rawOffer.split("<span class='hydarian res-icon'>").at(1).split("</span>").at(0).trim();
             const benefit = hydarian / commission;
 
-            if (isNaN(benefit) || benefit < 6) {
+            if (isNaN(benefit) || benefit < 5) {
                 return;
             }
 
