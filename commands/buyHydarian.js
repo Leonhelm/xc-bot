@@ -8,7 +8,7 @@ export const buyHydarian = async (planet) => {
         const dendrariumPage = await makeRequestText(`/dendrarium/?f[0][key]=hydarian&f[0][as]=sell&f[0][from]=0&f[0][to]=0&pagination=${pagination}`);
         const rawOffers = dendrariumPage.split('<span class="short" data-help="Кристаллы Хайдариан:').slice(1);
 
-        if (rawOffers.length < 50) {
+        if (pagination > 1 && rawOffers.length < 50) {
             break;
         }
 
