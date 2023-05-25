@@ -1,4 +1,4 @@
-import { CHECKED_СOORDINATES_COUNT, PANKOR, PRODUCER } from "../constants.js";
+import { CHECKED_СOORDINATES_COUNT, PANKOR, PRODUCER, JUGGERNAUT } from "../constants.js";
 import { getRandom } from "../utils/getRandom.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
@@ -69,12 +69,12 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     const { galaxy, system, fleet } = planet;
     const pirateMinPower = 150;
     const pirateMaxPower = 1500;
-    const pankorCount = 2;
-    const producerCount = 30;
+    const pankorMinCount = 1;
+    const producerMinCount = 15;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
-    if (pankorsInPlanet < pankorCount || producersInPlanet < producerCount) {
+    if (pankorsInPlanet < pankorMinCount || producersInPlanet < producerMinCount) {
         return {
             isSend: false,
         }
@@ -99,8 +99,31 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
         };
     }
 
+    const ships = [];
+
+    if (suitablePirate.power <= 450) {
+        ships.push([PRODUCER.id, producerMinCount]);
+        ships.push([PANKOR.id, pankorMinCount]);
+    } else if (pankorsInPlanet > pankorMinCount && producersInPlanet > producersInPlanet) {
+        const juggernautsInPlanet = fleet.find(f => f.id === JUGGERNAUT.id)?.count;
+
+        if (juggernautsInPlanet > 0) {
+            ships.push([JUGGERNAUT.id, juggernautsInPlanet]);
+            ships.push([PANKOR.id, pankorsInPlanet]);
+        } else {
+            ships.push([PRODUCER.id, producersInPlanet]);
+            ships.push([PANKOR.id, pankorsInPlanet]);
+        }
+    }
+
+    if (!ships.length) {
+        return {
+            isSend: false,
+        };
+    }
+
     const response = await makeRequestJson("/fleet/send/", {
-        body: `ship%5B${PRODUCER.id}%5D=${producerCount}&ship%5B${PANKOR.id}%5D=${pankorCount}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=3&hyd=0&speed=10&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
+        body: `${ships.map(([id, count]) => `ship%5B${id}%5D=${count}`).join('&')}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=3&hyd=0&speed=10&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
         method: "POST",
     });
 
