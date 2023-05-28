@@ -100,19 +100,23 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     }
 
     const ships = [];
+    const juggernautsInPlanet = fleet.find(f => f.id === JUGGERNAUT.id)?.count;
 
     if (suitablePirate.power <= 450) {
-        ships.push([PRODUCER.id, producerMinCount]);
         ships.push([PANKOR.id, pankorMinCount]);
-    } else if (pankorsInPlanet > pankorMinCount && producersInPlanet > producersInPlanet) {
-        const juggernautsInPlanet = fleet.find(f => f.id === JUGGERNAUT.id)?.count;
 
         if (juggernautsInPlanet > 0) {
             ships.push([JUGGERNAUT.id, juggernautsInPlanet]);
-            ships.push([PANKOR.id, pankorsInPlanet]);
+        } else {
+            ships.push([PRODUCER.id, producerMinCount]);
+        }
+    } else if (pankorsInPlanet > pankorMinCount && producersInPlanet > producersInPlanet) {
+        ships.push([PANKOR.id, pankorsInPlanet]);
+
+        if (juggernautsInPlanet > 0) {
+            ships.push([JUGGERNAUT.id, juggernautsInPlanet]);
         } else {
             ships.push([PRODUCER.id, producersInPlanet]);
-            ships.push([PANKOR.id, pankorsInPlanet]);
         }
     }
 
