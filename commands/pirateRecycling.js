@@ -1,4 +1,4 @@
-import { CHECKED_СOORDINATES_COUNT, PANKOR, PRODUCER, JUGGERNAUT } from "../constants.js";
+import { CHECKED_СOORDINATES_COUNT, PANKOR, PRODUCER } from "../constants.js";
 import { getRandom } from "../utils/getRandom.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
@@ -100,22 +100,13 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
     }
 
     const ships = [];
-    const juggernautsInPlanet = fleet.find(f => f.id === JUGGERNAUT.id)?.count;
 
     if (suitablePirate.power <= 450) {
         ships.push([PANKOR.id, pankorMinCount]);
         ships.push([PRODUCER.id, producerMinCount]);
-
-        if (juggernautsInPlanet > 0) {
-            ships.push([JUGGERNAUT.id, juggernautsInPlanet]);
-        }
     } else if (pankorsInPlanet > pankorMinCount && producersInPlanet > producersInPlanet) {
         ships.push([PANKOR.id, pankorsInPlanet]);
         ships.push([PRODUCER.id, producersInPlanet]);
-
-        if (juggernautsInPlanet > 0) {
-            ships.push([JUGGERNAUT.id, juggernautsInPlanet]);
-        }
     }
 
     if (!ships.length) {
