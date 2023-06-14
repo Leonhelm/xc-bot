@@ -32,7 +32,7 @@ await takingActionsOnPlanets(
     if (type === "capital") {
       await sendOnExpedition(planet, buildingsPage);
 
-      const isEveryFourthHour = (new Date().getHours() % 4) === 0;
+      const isEveryFourthHour = (new Date().getHours() % 6) === 0;
       const isThereSurplusResources = metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES;
 
       if (isEveryFourthHour && isThereSurplusResources) {
