@@ -3,17 +3,19 @@ import { makeRequestJson } from "../utils/makeRequest.js";
 
 const getCheckedСoordinates = () => {
     const coordinates = [];
+    const capitalGalaxy = parseInt(CAPITAL.galaxy);
+    const capitalSystem = parseInt(CAPITAL.system);
 
-    for (let galaxy = CAPITAL.galaxy - 2; galaxy <= CAPITAL.galaxy + 2; galaxy ++) {
-        for (let system = CAPITAL.system - 2; system <= CAPITAL.system + 2; system++) {
-            for (let planet = 1; planet <= 9; planet++) {
-                coordinates.push([galaxy, system, planet])
-            }
+    for (let galaxy = capitalGalaxy - 2; galaxy <= capitalGalaxy + 2; galaxy ++) {
+        for (let system = capitalSystem - 2; system <= capitalSystem + 2; system++) {
+            coordinates.push([galaxy, system])
         }
     }
 
     return coordinates;
 }
+
+const planets = Array(9).fill(null).map((_val, key) => key + 1);
 
 const getPirates = async () => {
     try {
@@ -21,17 +23,25 @@ const getPirates = async () => {
         const coordinatesInfo = [];
 
         for (const coordinate of checkedСoordinates) {
-            const [galaxy, system, planet] = coordinate;
-            const response = await makeRequestJson('/fleet/send/info/', {
-                body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
-                method: "POST",
-            });
-            coordinatesInfo.push(response);
+            const [galaxy, system] = coordinate;
+            const response = await Promise.all(planets.map((planet) => (
+                makeRequestJson('/fleet/send/info/', {
+                    body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
+                    method: "POST",
+                })
+            )));
+
+            coordinatesInfo.push(...response.map((info, key) => {
+                return {
+                    info,
+                    galaxy,
+                    system,
+                    planet: key + 1,
+                }
+            }));
         }
 
-        const pirates = coordinatesInfo.map((info, key) => {
-            const [gal, sys, plan] = checkedСoordinates[key]
-
+        const pirates = coordinatesInfo.map(({ info, galaxy, system, planet }) => {
             return info?.objects.map(object => {
                 if (object?.isGroupFleet || !object?.visual) {
                     return false;
@@ -51,13 +61,13 @@ const getPirates = async () => {
 
                 return {
                     power,
-                    galaxy: gal,
-                    system: sys,
-                    planet: plan,
+                    galaxy,
+                    system,
+                    planet,
                     fleetId,
                 };
             }).filter(Boolean)?.[0]
-        }).filter(Boolean)
+        }).filter(Boolean);
 
         return pirates ?? []
     } catch {
@@ -104,14 +114,12 @@ export const pirateRecycling = async (planet) => {
         };
     }
 
-    pirates = pirates.filter(({ fleetId }) => fleetId !== suitablePirate.fleetId);
-
     const ships = [];
 
     if (suitablePirate.power <= 450) {
         ships.push([PANKOR.id, pankorMinCount]);
         ships.push([PRODUCER.id, producerMinCount]);
-    } else if (pankorsInPlanet > pankorMinCount && producersInPlanet > producersInPlanet) {
+    } else if (pankorsInPlanet > pankorMinCount && producersInPlanet > producerMinCount) {
         ships.push([PANKOR.id, pankorsInPlanet]);
         ships.push([PRODUCER.id, producersInPlanet]);
     }
@@ -127,7 +135,7 @@ export const pirateRecycling = async (planet) => {
         method: "POST",
     });
 
-    pirateFleetBlackList.push(suitablePirate.fleetId);
+    pirates = pirates.filter(({ fleetId }) => fleetId !== suitablePirate.fleetId);
 
     return {
         isSend: !response?.error,
