@@ -1,32 +1,33 @@
-import { CHECKED_СOORDINATES_COUNT, PANKOR, PRODUCER } from "../constants.js";
-import { getRandom } from "../utils/getRandom.js";
+import { CAPITAL, PANKOR, PRODUCER } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
-const getCheckedСoordinates = (count, galaxy, system) => {
-    const arr = [];
+const getCheckedСoordinates = () => {
+    const coordinates = [];
 
-    while (arr.length < count) {
-        const galaxyChecked = getRandom(+galaxy - 2, +galaxy + 2);
-        const systemChecked = getRandom(+system - 2, +system + 2);
-        const planetChecked = getRandom(1, 9);
-        const coordinates = JSON.stringify([galaxyChecked, systemChecked, planetChecked])
-
-        if (!arr.includes(coordinates)) {
-            arr.push(coordinates)
+    for (let galaxy = CAPITAL.galaxy - 2; galaxy <= CAPITAL.galaxy + 2; galaxy ++) {
+        for (let system = CAPITAL.system - 2; system <= CAPITAL.system + 2; system++) {
+            for (let planet = 1; planet <= 9; planet++) {
+                coordinates.push([galaxy, system, planet])
+            }
         }
     }
 
-    return arr.map(JSON.parse)
+    return coordinates;
 }
 
-const getPirates = async (galaxy, system) => {
+const getPirates = async () => {
     try {
-        const checkedСoordinates = getCheckedСoordinates(CHECKED_СOORDINATES_COUNT, galaxy, system);
+        const checkedСoordinates = getCheckedСoordinates();
+        const coordinatesInfo = [];
 
-        const coordinatesInfo = await Promise.all(checkedСoordinates.map(([gal, sys, plan]) => makeRequestJson('/fleet/send/info/', {
-            body: `fleet_id=0&query_planet_id=0&galaxy=${gal}&system=${sys}&planet=${plan}&type=1`,
-            method: "POST",
-        })));
+        for (const coordinate of checkedСoordinates) {
+            const [galaxy, system, planet] = coordinate;
+            const response = await makeRequestJson('/fleet/send/info/', {
+                body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
+                method: "POST",
+            });
+            coordinatesInfo.push(response);
+        }
 
         const pirates = coordinatesInfo.map((info, key) => {
             const [gal, sys, plan] = checkedСoordinates[key]
@@ -64,11 +65,13 @@ const getPirates = async (galaxy, system) => {
     }
 }
 
+let pirates = null;
+
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
-export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
-    const { galaxy, system, fleet } = planet;
+export const pirateRecycling = async (planet) => {
+    const { fleet } = planet;
     const pirateMinPower = 50;
-    const pirateMaxPower = 1500;
+    const pirateMaxPower = 1505;
     const pankorMinCount = 1;
     const producerMinCount = 15;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
@@ -80,24 +83,28 @@ export const pirateRecycling = async (planet, pirateFleetBlackList = []) => {
         }
     }
 
-    const pirates = await getPirates(galaxy, system);
+    if (pirates == null) {
+        pirates = await getPirates();
+    }
+
     const suitablePirate = pirates?.reduce((acc, pirate) => {
-        const isInBlackList = pirateFleetBlackList.includes(pirate.fleetId);
         const isMinPower = pirate.power >= pirateMinPower;
         const isMaxPower = pirate.power <= pirateMaxPower;
         const isMostPowerful = pirate.power > (acc?.power ?? 0);
 
-        if (!isInBlackList && isMinPower && isMaxPower && isMostPowerful) {
+        if (isMinPower && isMaxPower && isMostPowerful) {
             return pirate;
         }
         return acc;
-    }, null)
+    }, null);
 
     if (!suitablePirate) {
         return {
             isSend: false,
         };
     }
+
+    pirates = pirates.filter(({ fleetId }) => fleetId !== suitablePirate.fleetId);
 
     const ships = [];
 

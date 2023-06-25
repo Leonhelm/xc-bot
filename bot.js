@@ -7,7 +7,6 @@ import { pirateRecycling } from "./commands/pirateRecycling.js";
 import { buyHydarian } from "./commands/buyHydarian.js";
 
 let pirateRecyclingCount = 0;
-const pirateFleetBlackList = [];
 
 await takingActionsOnPlanets(
   async (planet) => {
@@ -19,7 +18,7 @@ await takingActionsOnPlanets(
       const isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
       if (!isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
-        const { isSend } = await pirateRecycling(planet, pirateFleetBlackList);
+        const { isSend } = await pirateRecycling(planet);
 
         if (isSend) {
           pirateRecyclingCount++;
@@ -32,10 +31,10 @@ await takingActionsOnPlanets(
     if (type === "capital") {
       await sendOnExpedition(planet, buildingsPage);
 
-      const isEveryFourthHour = (new Date().getHours() % 6) === 0;
+      const isEveryXHours = (new Date().getHours() % 6) === 0;
       const isThereSurplusResources = metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES;
 
-      if (isEveryFourthHour && isThereSurplusResources) {
+      if (isEveryXHours && isThereSurplusResources) {
         await buyHydarian(planet);
       }
     }
