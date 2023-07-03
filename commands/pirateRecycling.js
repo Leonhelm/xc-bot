@@ -80,8 +80,8 @@ let pirates = null;
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet) => {
     const { fleet } = planet;
-    const pirateMinPower = 50;
-    const pirateMaxPower = 1505;
+    const pirateMinPower = 100;
+    const pirateMaxPower = 1300;
     const pankorMinCount = 1;
     const producerMinCount = 15;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
