@@ -16,8 +16,10 @@ await takingActionsOnPlanets(
 
     if (type === "colony") {
       const isSendResourcesToCapital = await sendResourcesToCapital(planet);
+      const hours = new Date().getUTCHours() + 3; // Делаем таймзону как на сервере игры
+      const isSafeHours = hours > 23 || hours < 19;
 
-      if (!isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
+      if (isSafeHours && !isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
         const { isSend } = await pirateRecycling(planet);
 
         if (isSend) {
