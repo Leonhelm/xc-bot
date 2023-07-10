@@ -1,9 +1,13 @@
 import { CAPITAL, MAX_COLONY_RESOURCES, OVERLORD } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
+const deuteriumReserve = 10_000;
+
 // Отправка ресурсов с колонии в столицу
 export const sendResourcesToCapital = async (planet) => {
-  const { metal, crystal, deuterium } = planet;
+  const metal = planet.metal;
+  const crystal = planet.crystal;
+  const deuterium = planet.deuterium - deuteriumReserve > 0 ? planet.deuterium - deuteriumReserve : 0;
 
   if (
     metal < MAX_COLONY_RESOURCES &&

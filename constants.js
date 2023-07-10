@@ -27,7 +27,7 @@ export const OVERLORD = {
   metal: 2300,
   crystal: 3250,
   deuterium: 0,
-  capacity: 22000,
+  capacity: 24000,
 };
 
 export const PRODUCER = {
