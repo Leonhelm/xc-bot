@@ -83,7 +83,7 @@ export const pirateRecycling = async (planet) => {
     const pirateMinPower = 100;
     const pirateMaxPower = 1100;
     const pankorMinCount = 1;
-    const producerMinCount = 15;
+    const producerMinCount = 20;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
