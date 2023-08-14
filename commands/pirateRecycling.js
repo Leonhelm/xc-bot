@@ -6,8 +6,8 @@ const getCheckedСoordinates = () => {
     const capitalGalaxy = parseInt(CAPITAL.galaxy);
     const capitalSystem = parseInt(CAPITAL.system);
 
-    for (let galaxy = capitalGalaxy - 2; galaxy <= capitalGalaxy + 2; galaxy ++) {
-        for (let system = capitalSystem - 2; system <= capitalSystem + 2; system++) {
+    for (let galaxy = capitalGalaxy - 1; galaxy <= capitalGalaxy + 1; galaxy ++) {
+        for (let system = capitalSystem - 1; system <= capitalSystem + 1; system++) {
             coordinates.push([galaxy, system])
         }
     }
@@ -80,8 +80,8 @@ let pirates = null;
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet) => {
     const { fleet } = planet;
-    const pirateMinPower = 100;
-    const pirateMaxPower = 1100;
+    const pirateMinPower = 50;
+    const pirateMaxPower = 1300;
     const pankorMinCount = 1;
     const producerMinCount = 20;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
