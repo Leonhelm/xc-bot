@@ -81,7 +81,7 @@ let pirates = null;
 export const pirateRecycling = async (planet) => {
     const { fleet } = planet;
     const pirateMinPower = 50;
-    const pirateMaxPower = 1300;
+    const pirateMaxPower = 2300;
     const pankorMinCount = 1;
     const producerMinCount = 20;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
@@ -116,12 +116,17 @@ export const pirateRecycling = async (planet) => {
 
     const ships = [];
 
-    if (suitablePirate.power <= 550) {
+    if (suitablePirate.power < 550) {
         ships.push([PANKOR.id, pankorMinCount]);
         ships.push([PRODUCER.id, producerMinCount]);
-    } else if (pankorsInPlanet > pankorMinCount && producersInPlanet > producerMinCount) {
-        ships.push([PANKOR.id, pankorsInPlanet]);
-        ships.push([PRODUCER.id, producersInPlanet]);
+    } else if (pankorsInPlanet > 2) {
+        if (suitablePirate.power < 1500) {
+            ships.push([PANKOR.id, 2]);
+            ships.push([PRODUCER.id, producersInPlanet]);
+        } else if (pankorsInPlanet > 2) {
+            ships.push([PANKOR.id, pankorsInPlanet]);
+            ships.push([PRODUCER.id, producersInPlanet]);
+        }
     }
 
     if (!ships.length) {
