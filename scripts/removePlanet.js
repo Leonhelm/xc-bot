@@ -7,7 +7,7 @@ setInterval(async () => {
     let elem = null;
 
     elems.forEach(el => {
-        if (el.querySelector('[poster="/images/buildings/animations/building_process_zerg.webp"]') == null) {
+        if (el.querySelector('[poster="/images/buildings/animations/building_process_zerg.webp"]') == null && el.dataset.id !== '62') {
             elem = el;
         }
     });
