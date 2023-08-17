@@ -7,7 +7,7 @@ setInterval(async () => {
     let elem = null;
 
     elems.forEach(el => {
-        if (el.querySelector('.upgrade') != null && el.dataset.id !== '62') {
+        if (el.querySelector('.upgrade') != null && !['62', '57', '56'].includes(el.dataset.id)) {
             elem = el;
         }
     });
