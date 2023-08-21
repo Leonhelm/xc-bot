@@ -112,7 +112,7 @@ export const takingActionsOnPlanets = async (
       return;
     }
 
-    await callbackAction(planet);
+    await callbackAction(planet, planetsData);
     await takingAction(index + 1);
   };
 

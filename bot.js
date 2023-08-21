@@ -9,7 +9,7 @@ import { buyHydarian } from "./commands/buyHydarian.js";
 let pirateRecyclingCount = 0;
 
 await takingActionsOnPlanets(
-  async (planet) => {
+  async (planet, planets) => {
     const { type, id, metal, crystal, deuterium } = planet;
 
     const buildingsPage = await collectionResources(id);
@@ -20,7 +20,7 @@ await takingActionsOnPlanets(
       const isSafeHours = hours > 0 && hours < 20;
 
       if (isSafeHours && !isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
-        const { isSend } = await pirateRecycling(planet);
+        const { isSend } = await pirateRecycling(planet, planets);
 
         if (isSend) {
           pirateRecyclingCount++;

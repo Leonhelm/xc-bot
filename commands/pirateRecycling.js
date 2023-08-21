@@ -15,30 +15,34 @@ const getCheckedСoordinates = () => {
     return coordinates;
 }
 
-const planets = Array(9).fill(null).map((_val, key) => key + 1);
+const filledPlanets = Array(9).fill(null).map((_val, key) => key + 1);
 
-const getPirates = async () => {
+const getPirates = async (planets) => {
     try {
         const checkedСoordinates = getCheckedСoordinates();
         const coordinatesInfo = [];
 
         for (const coordinate of checkedСoordinates) {
             const [galaxy, system] = coordinate;
-            const response = await Promise.all(planets.map((planet) => (
-                makeRequestJson('/fleet/send/info/', {
-                    body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
-                    method: "POST",
-                })
-            )));
+            const isMySystem = planets.some(planet => galaxy === planet.galaxy && system === planet.system);
 
-            coordinatesInfo.push(...response.map((info, key) => {
-                return {
-                    info,
-                    galaxy,
-                    system,
-                    planet: key + 1,
-                }
-            }));
+            if (isMySystem) {
+                const response = await Promise.all(filledPlanets.map((planet) => (
+                    makeRequestJson('/fleet/send/info/', {
+                        body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
+                        method: "POST",
+                    })
+                )));
+
+                coordinatesInfo.push(...response.map((info, key) => {
+                    return {
+                        info,
+                        galaxy,
+                        system,
+                        planet: key + 1,
+                    }
+                }));
+            }
         }
 
         const pirates = coordinatesInfo.map(({ info, galaxy, system, planet }) => {
@@ -78,7 +82,7 @@ const getPirates = async () => {
 let pirates = null;
 
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
-export const pirateRecycling = async (planet) => {
+export const pirateRecycling = async (planet, planets) => {
     const { fleet } = planet;
     const pirateMinPower = 50;
     const pirateMaxPower = 2300;
@@ -94,7 +98,7 @@ export const pirateRecycling = async (planet) => {
     }
 
     if (pirates == null) {
-        pirates = await getPirates();
+        pirates = await getPirates(planets);
     }
 
     const suitablePirate = pirates?.reduce((acc, pirate) => {
