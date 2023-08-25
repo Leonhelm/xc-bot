@@ -24,9 +24,9 @@ const getPirates = async (planets) => {
 
         for (const coordinate of checkedСoordinates) {
             const [galaxy, system] = coordinate;
-            const isMySystem = planets.some(planet => galaxy === planet.galaxy && system === planet.system);
+            // const isMySystem = planets.some(planet => galaxy === planet.galaxy && system === planet.system);
 
-            if (isMySystem) {
+            // if (isMySystem) {
                 const response = await Promise.all(filledPlanets.map((planet) => (
                     makeRequestJson('/fleet/send/info/', {
                         body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
@@ -42,7 +42,7 @@ const getPirates = async (planets) => {
                         planet: key + 1,
                     }
                 }));
-            }
+            // }
         }
 
         const pirates = coordinatesInfo.map(({ info, galaxy, system, planet }) => {
