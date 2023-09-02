@@ -11,13 +11,12 @@ let pirateRecyclingCount = 0;
 await takingActionsOnPlanets(
   async (planet, planets) => {
     const { type, id, metal, crystal, deuterium } = planet;
-
     const buildingsPage = await collectionResources(id);
+    const nowHours = new Date().getUTCHours() + 3; // Делаем таймзону как на сервере игры
 
     if (type === "colony") {
       const isSendResourcesToCapital = await sendResourcesToCapital(planet);
-      const hours = new Date().getUTCHours() + 3; // Делаем таймзону как на сервере игры
-      const isSafeHours = hours > 0 && hours < 20;
+      const isSafeHours = nowHours > 0 && hours < 20;
 
       if (isSafeHours && !isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
         const { isSend } = await pirateRecycling(planet, planets);
@@ -33,7 +32,7 @@ await takingActionsOnPlanets(
     if (type === "capital") {
       await sendOnExpedition(planet, buildingsPage);
 
-      const isEveryXHours = (new Date().getHours() % 6) === 0;
+      const isEveryXHours = (nowHours % 6) === 0;
       const isThereSurplusResources = metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES;
 
       if (isEveryXHours && isThereSurplusResources) {
