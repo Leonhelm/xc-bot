@@ -16,7 +16,7 @@ await takingActionsOnPlanets(
 
     if (type === "colony") {
       const isSendResourcesToCapital = await sendResourcesToCapital(planet);
-      const isSafeHours = nowHours > 0 && hours < 20;
+      const isSafeHours = nowHours > 0 && nowHours < 20;
 
       if (isSafeHours && !isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
         const { isSend } = await pirateRecycling(planet, planets);
