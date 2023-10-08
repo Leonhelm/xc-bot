@@ -85,7 +85,7 @@ let pirates = null;
 export const pirateRecycling = async (planet, planets) => {
     const { fleet } = planet;
     const pirateMinPower = 50;
-    const pirateMaxPower = 1900;
+    const pirateMaxPower = 1800;
     const pankorMinCount = 1;
     const producerMinCount = 20;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
