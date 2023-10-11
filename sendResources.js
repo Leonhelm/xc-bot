@@ -2,7 +2,7 @@ import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { collectionResources } from "./commands/collectionResources.js";
 
-const reserve = 5_000;
+const reserve = 10_000;
 
 await takingActionsOnPlanets(
   async (planet) => {
@@ -11,7 +11,7 @@ await takingActionsOnPlanets(
     await collectionResources(id);
 
     if (type === "colony") {
-      if (metal > reserve || crystal > reserve || deuterium > reserve) {
+      if (metal > reserve || crystal > reserve) {
         await sendResourcesToCapital(planet);
       }
     }
