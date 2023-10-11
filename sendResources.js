@@ -3,7 +3,9 @@ import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 
 await takingActionsOnPlanets(
   async (planet) => {
-    const { type } = planet;
+    const { type, id } = planet;
+
+    await collectionResources(id);
 
     if (type === "colony") {
       await sendResourcesToCapital(planet);
