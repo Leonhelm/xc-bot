@@ -36,3 +36,31 @@ jobs:
           CAPITAL_GALAXY: ${{ secrets.CAPITAL_GALAXY }}
           CAPITAL_SYSTEM: ${{ secrets.CAPITAL_SYSTEM }}
           CAPITAL_PLANET: ${{ secrets.CAPITAL_PLANET }}
+
+name: send-resources
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Run bot
+        run: deno run --allow-net --allow-env sendResources.js
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          USER_NAME: ${{ secrets.USER_NAME }}
+          CAPITAL_ID: ${{ secrets.CAPITAL_ID }}
+          CAPITAL_GALAXY: ${{ secrets.CAPITAL_GALAXY }}
+          CAPITAL_SYSTEM: ${{ secrets.CAPITAL_SYSTEM }}
+          CAPITAL_PLANET: ${{ secrets.CAPITAL_PLANET }}

@@ -1,4 +1,4 @@
-import { CAPITAL, MAX_COLONY_RESOURCES, OVERLORD } from "../constants.js";
+import { CAPITAL, OVERLORD } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
 const deuteriumReserve = 10_000;
@@ -8,14 +8,6 @@ export const sendResourcesToCapital = async (planet) => {
   const metal = planet.metal;
   const crystal = planet.crystal;
   const deuterium = planet.deuterium - deuteriumReserve > 0 ? planet.deuterium - deuteriumReserve : 0;
-
-  if (
-    metal < MAX_COLONY_RESOURCES &&
-    crystal < MAX_COLONY_RESOURCES &&
-    deuterium < MAX_COLONY_RESOURCES
-  ) {
-    return false;
-  }
 
   const overlordsCount = Math.ceil(
     (metal + crystal + deuterium) / OVERLORD.capacity

@@ -1,4 +1,4 @@
-import { MAX_CAPITAL_RESOURCES, MAX_PIRATE_RECYCLING } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES, MAX_PIRATE_RECYCLING, MAX_COLONY_RESOURCES } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
@@ -15,7 +15,16 @@ await takingActionsOnPlanets(
     const nowHours = new Date().getUTCHours() + 3; // Делаем таймзону как на сервере игры
 
     if (type === "colony") {
-      const isSendResourcesToCapital = await sendResourcesToCapital(planet);
+      let isSendResourcesToCapital = false;
+
+      if (
+        metal > MAX_COLONY_RESOURCES ||
+        crystal > MAX_COLONY_RESOURCES ||
+        deuterium > MAX_COLONY_RESOURCES
+      ) {
+        isSendResourcesToCapital = await sendResourcesToCapital(planet);
+      }
+
       const isSafeHours = nowHours > 0 && nowHours < 20;
 
       if (isSafeHours && !isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
