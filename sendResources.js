@@ -1,5 +1,6 @@
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
+import { collectionResources } from "./commands/collectionResources.js";
 
 await takingActionsOnPlanets(
   async (planet) => {
