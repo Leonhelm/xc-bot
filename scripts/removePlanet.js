@@ -1,5 +1,5 @@
 setInterval(async () => {
-    if (document.querySelector('.planetbuilding_item.upgrade') == null) {
+    if (document.querySelectorAll('[poster="/images/buildings/animations/building_process_zerg.webp"]').length === 5) {
         return;
     }
 
@@ -16,7 +16,7 @@ setInterval(async () => {
         return;
     }
 
-    elem.click();
+    elem.querySelector('.animation_wall').click();
 
     await new Promise((r) => setTimeout(r, 300));
 
