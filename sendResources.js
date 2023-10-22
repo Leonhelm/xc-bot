@@ -16,5 +16,5 @@ await takingActionsOnPlanets(
       }
     }
   },
-  (planets) => planets.reverse()
+  (planets) => planets.sort((a, b) => b.metal > a.metal)
 );
