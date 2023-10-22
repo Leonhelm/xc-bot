@@ -124,7 +124,7 @@ export const pirateRecycling = async (planet, planets) => {
         ships.push([PANKOR.id, pankorMinCount]);
         ships.push([PRODUCER.id, producerMinCount]);
     } else if (pankorsInPlanet > 2) {
-        if (suitablePirate.power < 1500) {
+        if (suitablePirate.power < 1000) {
             ships.push([PANKOR.id, 2]);
             ships.push([PRODUCER.id, producersInPlanet]);
         } else if (pankorsInPlanet > 2) {
