@@ -30,13 +30,18 @@ const getPlanetsData = async () => {
 
   ["metal", "crystal", "deuterium"].forEach((recourceName) => {
     imperiumPage
-      .split(`<td class="${recourceName} ">`)
+      .split(`<td class="${recourceName}`)
       .slice(1)
       .forEach((content, index) => {
-        const recourceCount = +content
+        if (planetsData[index]?.id == null) {
+          return;
+        }
+
+        const recourceCount = parseInt(content
+          .split('">')[1]
           .split("<br>")[0]
           .replaceAll("&nbsp;", "")
-          .trim();
+          .trim());
 
         planetsData[index] = {
           ...planetsData[index],
