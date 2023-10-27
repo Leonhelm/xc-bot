@@ -33,14 +33,10 @@ await takingActionsOnPlanets(
 
         if (isSend) {
           pirateRecyclingCount++;
-          return;
         }
       }
 
-      if (!isSendResourcesToCapital) {
-        await planetRecycling(planet);
-      }
-
+      await planetRecycling(planet);
       return;
     }
 
