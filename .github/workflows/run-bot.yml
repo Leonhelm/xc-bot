@@ -36,3 +36,7 @@ jobs:
           CAPITAL_GALAXY: ${{ secrets.CAPITAL_GALAXY }}
           CAPITAL_SYSTEM: ${{ secrets.CAPITAL_SYSTEM }}
           CAPITAL_PLANET: ${{ secrets.CAPITAL_PLANET }}
+          RECYCLING_ID: ${{ secrets.RECYCLING_ID }}
+          RECYCLING_GALAXY: ${{ secrets.RECYCLING_GALAXY }}
+          RECYCLING_SYSTEM: ${{ secrets.RECYCLING_SYSTEM }}
+          RECYCLING_PLANET: ${{ secrets.RECYCLING_PLANET }}

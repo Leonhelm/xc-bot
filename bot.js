@@ -5,6 +5,7 @@ import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { sendOnExpedition } from "./commands/sendOnExpedition.js";
 import { pirateRecycling } from "./commands/pirateRecycling.js";
 import { buyHydarian } from "./commands/buyHydarian.js";
+import { planetRecycling } from "./commands/planetRecycling.js";
 
 let pirateRecyclingCount = 0;
 
@@ -33,9 +34,13 @@ await takingActionsOnPlanets(
         if (isSend) {
           pirateRecyclingCount++;
         }
+
+        return;
       }
 
-      return;
+      if (!isSendResourcesToCapital) {
+        await planetRecycling(planet);
+      }
     }
 
     if (type === "capital") {

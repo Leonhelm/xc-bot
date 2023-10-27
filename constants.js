@@ -15,33 +15,41 @@ export const CAPITAL = {
   planetType: 1,
 };
 
+export const RECYCLING = {
+  id: Deno.env.get("RECYCLING_ID"),
+  galaxy: Deno.env.get("RECYCLING_GALAXY"),
+  system: Deno.env.get("RECYCLING_SYSTEM"),
+  planet: Deno.env.get("RECYCLING_PLANET"),
+  planetType: 1,
+}
+
 export const QUEEN = {
   id: 250,
-  metal: 1200,
-  crystal: 14800,
+  metal: 1_200,
+  crystal: 14_800,
   deuterium: 300,
 };
 
 export const OVERLORD = {
   id: 242,
-  metal: 2300,
-  crystal: 3250,
+  metal: 2_300,
+  crystal: 3_250,
   deuterium: 0,
-  capacity: 24000,
+  capacity: 24_200,
 };
 
 export const PRODUCER = {
   id: 239,
-  metal: 2800,
-  crystal: 1700,
+  metal: 2_800,
+  crystal: 1_700,
   deuterium: 50,
 };
 
-export const EATER = {
-  id: 243,
-  metal: 60000,
-  crystal: 40000,
-  deuterium: 30000,
+export const LEXX = {
+  id: 244,
+  metal: 9_000_000,
+  crystal: 3_000_000,
+  deuterium: 1_250_000,
 };
 
 export const PANKOR = {
@@ -50,10 +58,3 @@ export const PANKOR = {
   crystal: 200_000,
   deuterium: 150_000,
 };
-
-export const JUGGERNAUT = {
-  id: 218,
-  metal: 80_000,
-  crystal: 50_000,
-  deuterium: 125_000,
-}
