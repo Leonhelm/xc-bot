@@ -25,7 +25,7 @@ export async function planetRecycling(planet) {
     }
 
     await makeRequestJson("/fleet/send/", {
-        body: `ship%5B${LEXX.id}%5D=${lexxInPlanet}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${RECYCLING.galaxy}8&system=${RECYCLING.system}&planet=${RECYCLING.planet}&planettype=${RECYCLING.planetType}&planetId=${RECYCLING.id}&mission=25&holding=0&hyd=0&speed=100&fleet_group=0&fid=0&clusterId=0&targetFleetId=0&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
+        body: `ship%5B${LEXX.id}%5D=${lexxInPlanet}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${RECYCLING.galaxy}&system=${RECYCLING.system}&planet=${RECYCLING.planet}&planettype=${RECYCLING.planetType}&planetId=${RECYCLING.id}&mission=25&holding=0&hyd=0&speed=100&fleet_group=0&fid=0&clusterId=0&targetFleetId=0&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
         method: "POST",
     });
 }
