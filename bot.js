@@ -33,14 +33,15 @@ await takingActionsOnPlanets(
 
         if (isSend) {
           pirateRecyclingCount++;
+          return;
         }
-
-        return;
       }
 
       if (!isSendResourcesToCapital) {
         await planetRecycling(planet);
       }
+
+      return;
     }
 
     if (type === "capital") {
