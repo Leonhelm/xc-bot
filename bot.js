@@ -6,6 +6,7 @@ import { sendOnExpedition } from "./commands/sendOnExpedition.js";
 import { pirateRecycling } from "./commands/pirateRecycling.js";
 import { buyHydarian } from "./commands/buyHydarian.js";
 import { planetRecycling } from "./commands/planetRecycling.js";
+import { sendFleetTimeout } from "./utils/sendFleet.js";
 
 let pirateRecyclingCount = 0;
 
@@ -27,13 +28,19 @@ await takingActionsOnPlanets(
       }
 
       const isSafeHours = nowHours > 0 && nowHours < 20;
+      let isSendPirateRecycling = false;
 
       if (isSafeHours && !isSendResourcesToCapital && pirateRecyclingCount < MAX_PIRATE_RECYCLING) {
         const { isSend } = await pirateRecycling(planet, planets);
 
         if (isSend) {
           pirateRecyclingCount++;
+          isSendPirateRecycling = true;
         }
+      }
+
+      if (isSendPirateRecycling) {
+        await sendFleetTimeout();
       }
 
       await planetRecycling(planet);
