@@ -1,13 +1,23 @@
-import { CAPITAL, PANKOR, PRODUCER } from "../constants.js";
+import { PANKOR, PRODUCER } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
+import { randomInteger } from "../utils/number.js";
 
-const getCheckedСoordinates = () => {
+const radius = 1;
+const galaxyDeviation = randomInteger(-3, 3);
+const systemDeviation = randomInteger(-3, 3);
+const pirateMinPower = 50;
+const pirateMaxPower = 1500;
+const pankorMinCount = 1;
+const producerMinCount = 20;
+
+const getCheckedСoordinates = (planet) => {
+    const { galaxy, system } = planet;
     const coordinates = [];
-    const capitalGalaxy = parseInt(CAPITAL.galaxy) +5;
-    const capitalSystem = parseInt(CAPITAL.system) -5;
+    const startGalaxy = parseInt(galaxy) + galaxyDeviation;
+    const startSystem = parseInt(system) + systemDeviation;
 
-    for (let galaxy = capitalGalaxy - 2; galaxy <= capitalGalaxy + 2; galaxy ++) {
-        for (let system = capitalSystem - 1; system <= capitalSystem + 1; system++) {
+    for (let galaxy = startGalaxy - radius; galaxy <= startGalaxy + radius; galaxy ++) {
+        for (let system = startSystem - radius; system <= startSystem + radius; system++) {
             coordinates.push([galaxy, system])
         }
     }
@@ -17,32 +27,29 @@ const getCheckedСoordinates = () => {
 
 const filledPlanets = Array(9).fill(null).map((_val, key) => key + 1);
 
-const getPirates = async (planets) => {
+const getPirates = async (planet) => {
     try {
-        const checkedСoordinates = getCheckedСoordinates();
+        const checkedСoordinates = getCheckedСoordinates(planet);
         const coordinatesInfo = [];
 
         for (const coordinate of checkedСoordinates) {
             const [galaxy, system] = coordinate;
-            // const isMySystem = planets.some(planet => galaxy === planet.galaxy && system === planet.system);
 
-            // if (isMySystem) {
-                const response = await Promise.all(filledPlanets.map((planet) => (
-                    makeRequestJson('/fleet/send/info/', {
-                        body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
-                        method: "POST",
-                    })
-                )));
+            const response = await Promise.all(filledPlanets.map((planet) => (
+                makeRequestJson('/fleet/send/info/', {
+                    body: `fleet_id=0&query_planet_id=0&galaxy=${galaxy}&system=${system}&planet=${planet}&type=1`,
+                    method: "POST",
+                })
+            )));
 
-                coordinatesInfo.push(...response.map((info, key) => {
-                    return {
-                        info,
-                        galaxy,
-                        system,
-                        planet: key + 1,
-                    }
-                }));
-            // }
+            coordinatesInfo.push(...response.map((info, key) => {
+                return {
+                    info,
+                    galaxy,
+                    system,
+                    planet: key + 1,
+                }
+            }));
         }
 
         const pirates = coordinatesInfo.map(({ info, galaxy, system, planet }) => {
@@ -79,15 +86,9 @@ const getPirates = async (planets) => {
     }
 }
 
-let pirates = null;
-
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
-export const pirateRecycling = async (planet, planets) => {
+export const pirateRecycling = async (planet) => {
     const { fleet } = planet;
-    const pirateMinPower = 50;
-    const pirateMaxPower = 1500;
-    const pankorMinCount = 1;
-    const producerMinCount = 20;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
@@ -97,9 +98,7 @@ export const pirateRecycling = async (planet, planets) => {
         }
     }
 
-    if (pirates == null) {
-        pirates = await getPirates(planets);
-    }
+    const pirates = await getPirates(planet);
 
     const suitablePirate = pirates?.reduce((acc, pirate) => {
         const isMinPower = pirate.power >= pirateMinPower;
