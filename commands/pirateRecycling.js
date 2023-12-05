@@ -3,7 +3,7 @@ import { makeRequestJson } from "../utils/makeRequest.js";
 
 const getCheckedСoordinates = () => {
     const coordinates = [];
-    const capitalGalaxy = parseInt(CAPITAL.galaxy) -5;
+    const capitalGalaxy = parseInt(CAPITAL.galaxy) +5;
     const capitalSystem = parseInt(CAPITAL.system) -5;
 
     for (let galaxy = capitalGalaxy - 2; galaxy <= capitalGalaxy + 2; galaxy ++) {
