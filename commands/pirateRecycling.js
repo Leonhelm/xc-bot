@@ -2,7 +2,7 @@ import { PANKOR, PRODUCER } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 import { randomInteger } from "../utils/number.js";
 
-const radius = 1;
+const radius = 0;
 const galaxyDeviation = randomInteger(-3, 3);
 const systemDeviation = randomInteger(-3, 3);
 const pirateMinPower = 50;
