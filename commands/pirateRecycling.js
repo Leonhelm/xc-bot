@@ -54,6 +54,21 @@ const getPirates = async (planet) => {
         }
 
         const pirates = coordinatesInfo.map(({ info, galaxy, system, planet }) => {
+            let isSinglePirat = true;
+
+            info?.objects?.forEach((object) => {
+                const isFleet = object?.visual?.includes('fleet-destination-object_fleet');
+                const isPirat = object?.visual?.includes('☠');
+
+                if (isFleet && !isPirat) {
+                    isSinglePirat = false;
+                }
+            });
+
+            if (!isSinglePirat) {
+                return [];
+            }
+
             return info?.objects.map(object => {
                 if (object?.isGroupFleet || !object?.visual) {
                     return false;
