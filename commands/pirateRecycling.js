@@ -2,13 +2,14 @@ import { PANKOR, PRODUCER } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 import { randomInteger } from "../utils/number.js";
 
-const radius = 0;
+const radius = 1;
 const galaxyDeviation = randomInteger(-3, 3);
 const systemDeviation = randomInteger(-3, 3);
 const pirateMinPower = 50;
 const pirateMaxPower = 1500;
 const pankorMinCount = 1;
 const producerMinCount = 20;
+const sentFleetIds = [];
 
 const getCheckedСoordinates = (planet) => {
     const { galaxy, system } = planet;
@@ -100,7 +101,13 @@ export const pirateRecycling = async (planet) => {
 
     const pirates = await getPirates(planet);
 
+    console.log(pirates);
+
     const suitablePirate = pirates?.reduce((acc, pirate) => {
+        if (sentFleetIds.includes(pirate.fleetId)) {
+            return acc;
+        }
+
         const isMinPower = pirate.power >= pirateMinPower;
         const isMaxPower = pirate.power <= pirateMaxPower;
         const isMostPowerful = pirate.power > (acc?.power ?? 0);
@@ -145,7 +152,7 @@ export const pirateRecycling = async (planet) => {
     const isSend = !response?.error;
 
     if (isSend) {
-        pirates = pirates.filter(({ fleetId }) => fleetId !== suitablePirate.fleetId);
+        sentFleetIds.push(suitablePirate.fleetId);
     }
 
     return { isSend };
