@@ -5,7 +5,7 @@ export const GAME_URL = "https://xcraft.ru";
 export const MAX_CAPITAL_RESOURCES = 1_500_000;
 export const MAX_COLONY_RESOURCES = 75_000;
 export const MAX_EXPEDITIONS = 3;
-export const MAX_PIRATE_RECYCLING = 5;
+export const MAX_PIRATE_RECYCLING = 2;
 
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),
