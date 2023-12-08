@@ -1,6 +1,7 @@
 import { PANKOR, PRODUCER } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 import { randomInteger } from "../utils/number.js";
+import { sendFleetTimeout } from "../utils/sendFleet.js";
 
 const radius = 1;
 const galaxyDeviation = randomInteger(1, 3);
@@ -166,6 +167,8 @@ export const pirateRecycling = async (planet) => {
 
     if (isSend) {
         sentFleetIds.push(suitablePirate.fleetId);
+
+        await sendFleetTimeout();
 
         await makeRequestJson("/fleet/send/", {
             body: `ship%5B${PRODUCER.id}%5D=${ships.get(PRODUCER.id)}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=2&hyd=0&speed=60&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
