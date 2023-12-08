@@ -12,7 +12,7 @@ export function getMyFleetInFly(page) {
         return acc;
     }, []);
 
-    console.log(myFleetInFly);
+    return myFleetInFly;
 }
 
 function getFleetInFly(page) {
