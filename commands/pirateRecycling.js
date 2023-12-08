@@ -116,8 +116,6 @@ export const pirateRecycling = async (planet) => {
 
     const pirates = await getPirates(planet);
 
-    console.log(pirates);
-
     const suitablePirate = pirates?.reduce((acc, pirate) => {
         if (sentFleetIds.includes(pirate.fleetId)) {
             return acc;
@@ -139,35 +137,40 @@ export const pirateRecycling = async (planet) => {
         };
     }
 
-    const ships = [];
+    const ships = new Map();
 
     if (suitablePirate.power < 450) {
-        ships.push([PANKOR.id, pankorMinCount]);
-        ships.push([PRODUCER.id, producerMinCount]);
+        ships.set(PANKOR.id, pankorMinCount);
+        ships.set(PRODUCER.id, producerMinCount);
     } else if (pankorsInPlanet > 2) {
         if (suitablePirate.power < 900) {
-            ships.push([PANKOR.id, 2]);
-            ships.push([PRODUCER.id, producersInPlanet]);
+            ships.set(PANKOR.id, 2);
+            ships.set(PRODUCER.id, producersInPlanet);
         } else if (pankorsInPlanet > 2) {
-            ships.push([PANKOR.id, pankorsInPlanet]);
-            ships.push([PRODUCER.id, producersInPlanet]);
+            ships.set(PANKOR.id, pankorsInPlanet);
+            ships.set(PRODUCER.id, producersInPlanet);
         }
     }
 
-    if (!ships.length) {
+    if (ships.size === 0) {
         return {
             isSend: false,
         };
     }
 
-    const response = await makeRequestJson("/fleet/send/", {
-        body: `${ships.map(([id, count]) => `ship%5B${id}%5D=${count}`).join('&')}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=3&hyd=0&speed=100&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
+    const responsePankor = await makeRequestJson("/fleet/send/", {
+        body: `ship%5B${PANKOR.id}%5D=${ships.get(PANKOR.id)}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=1&holding=0&hyd=0&speed=100&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
         method: "POST",
     });
-    const isSend = !response?.error;
+    const isSend = !responsePankor?.error;
 
     if (isSend) {
         sentFleetIds.push(suitablePirate.fleetId);
+
+        await makeRequestJson("/fleet/send/", {
+            body: `ship%5B${PRODUCER.id}%5D=${ships.get(PRODUCER.id)}&target_user=&method=get&use_portal=false&metal=0&crystal=0&deuterium=0&galaxy=${suitablePirate.galaxy}&system=${suitablePirate.system}&planet=${suitablePirate.planet}&planettype=4&planetId=0&mission=8&holding=2&hyd=0&speed=60&fleet_group=0&fid=0&targetFleetId=${suitablePirate.fleetId}&fleet_resource_priority=0&rec-auto-return=1&aggression=1&battle_begin_alarm=0&count=0&silent=0`,
+            method: "POST",
+        });
     }
 
     return { isSend };
