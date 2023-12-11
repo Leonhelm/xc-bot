@@ -4,7 +4,7 @@ import { randomInteger } from "../utils/number.js";
 import { sendFleetTimeout } from "../utils/sendFleet.js";
 
 const radius = 1;
-const galaxyDeviation = randomInteger(1, 3);
+const galaxyDeviation = randomInteger(-3, 3);
 const systemDeviation = randomInteger(-3, 3);
 const pirateMinPower = 50;
 const pirateMaxPower = 1500;
