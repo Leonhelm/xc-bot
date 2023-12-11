@@ -24,7 +24,6 @@ await takingActionsOnPlanets(
       }
 
       const isMaxColonyResources = metal > MAX_COLONY_RESOURCES || crystal > MAX_COLONY_RESOURCES || deuterium > MAX_COLONY_RESOURCES;
-      const isSafeHours = nowHours > 0 && nowHours < 20;
       let isSendResourcesToCapital = false;
       let isSendPirateRecycling = false;
 
@@ -36,7 +35,7 @@ await takingActionsOnPlanets(
         }
       }
 
-      if (isSafeHours && !isSendResourcesToCapital && fleetFreeSlots >= 2) {
+      if (!isSendResourcesToCapital && fleetFreeSlots >= 2) {
         const { isSend } = await pirateRecycling(planet, planets);
 
         if (isSend) {
