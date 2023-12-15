@@ -39,7 +39,7 @@ await takingActionsOnPlanets(
         const { isSend } = await pirateRecycling(planet, planets);
 
         if (isSend) {
-          fleetFreeSlots--;
+          fleetFreeSlots-=2;
           isSendPirateRecycling = true;
         }
       }
