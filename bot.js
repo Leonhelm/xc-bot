@@ -35,14 +35,14 @@ await takingActionsOnPlanets(
         }
       }
 
-      // if (!isSendResourcesToCapital && fleetFreeSlots >= 2) {
-      //   const { isSend } = await pirateRecycling(planet, planets);
+      if (!isSendResourcesToCapital && fleetFreeSlots >= 2) {
+        const { isSend } = await pirateRecycling(planet, planets);
 
-      //   if (isSend) {
-      //     fleetFreeSlots-=2;
-      //     isSendPirateRecycling = true;
-      //   }
-      // }
+        if (isSend) {
+          fleetFreeSlots-=2;
+          isSendPirateRecycling = true;
+        }
+      }
 
       if (fleetFreeSlots === 0) {
         return;
