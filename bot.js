@@ -57,10 +57,15 @@ await takingActionsOnPlanets(
     }
 
     if (type === "capital") {
-      const { isSend } = await sendOnExpedition(planet, buildingsPage);
+      let isSendOnExpedition = false;
 
-      if (isSend) {
-        fleetFreeSlots--;
+      if (fleetFreeSlots > 0) {
+        const { isSend } = await sendOnExpedition(planet, buildingsPage);
+        isSendOnExpedition = isSend;
+
+        if (isSendOnExpedition) {
+          fleetFreeSlots--;
+        }
       }
 
       const isEveryXHours = (nowHours % 6) === 0;
@@ -71,7 +76,7 @@ await takingActionsOnPlanets(
       }
 
       if (fleetFreeSlots > 0) {
-        if (isSend) {
+        if (isSendOnExpedition) {
           await sendFleetTimeout();
         }
         await planetRecycling(planet);
