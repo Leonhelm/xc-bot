@@ -57,13 +57,25 @@ await takingActionsOnPlanets(
     }
 
     if (type === "capital") {
-      await sendOnExpedition(planet, buildingsPage);
+      const { isSend } = await sendOnExpedition(planet, buildingsPage);
+
+      if (isSend) {
+        fleetFreeSlots--;
+      }
 
       const isEveryXHours = (nowHours % 6) === 0;
       const isThereSurplusResources = metal >= MAX_CAPITAL_RESOURCES || crystal >= MAX_CAPITAL_RESOURCES || deuterium >= MAX_CAPITAL_RESOURCES;
 
       if (isEveryXHours && isThereSurplusResources) {
         await buyHydarian(planet);
+      }
+
+      if (fleetFreeSlots > 0) {
+        if (isSend) {
+          await sendFleetTimeout();
+        }
+        await planetRecycling(planet);
+        return;
       }
     }
   },
