@@ -84,5 +84,5 @@ await takingActionsOnPlanets(
       }
     }
   },
-  (planets) => planets.reverse()
+  // (planets) => planets.reverse()
 );
