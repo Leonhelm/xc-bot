@@ -33,6 +33,7 @@ await takingActionsOnPlanets(
         if (isSendResourcesToCapital) {
           fleetFreeSlots--;
         }
+        console.log('sendResourcesToCapital', isSendResourcesToCapital);
       }
 
       const isEveryXHours = (nowHours % 2) === 0;
@@ -40,9 +41,10 @@ await takingActionsOnPlanets(
         const { isSend } = await pirateRecycling(planet, planets);
 
         if (isSend) {
-          fleetFreeSlots-=2;
+          fleetFreeSlots -= 2;
           isSendPirateRecycling = true;
         }
+        console.log('pirateRecycling', isSend);
       }
 
       if (fleetFreeSlots > 0) {
@@ -50,7 +52,8 @@ await takingActionsOnPlanets(
           await sendFleetTimeout();
         }
 
-        await planetRecycling(planet);
+        const { isSend } = await planetRecycling(planet);
+        console.log('planetRecycling', isSend);
       }
 
       return;
@@ -66,6 +69,7 @@ await takingActionsOnPlanets(
         if (isSendOnExpedition) {
           fleetFreeSlots--;
         }
+        console.log('sendOnExpedition', isSend);
       }
 
       const isEveryXHours = (nowHours % 6) === 0;
@@ -79,7 +83,8 @@ await takingActionsOnPlanets(
         if (isSendOnExpedition) {
           await sendFleetTimeout();
         }
-        await planetRecycling(planet);
+        const { isSend } = await planetRecycling(planet);
+        console.log('planetRecycling', isSend);
       }
 
       return;
