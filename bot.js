@@ -1,4 +1,4 @@
-import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
@@ -8,6 +8,7 @@ import { buyHydarian } from "./commands/buyHydarian.js";
 import { planetRecycling } from "./commands/planetRecycling.js";
 import { sendFleetTimeout } from "./utils/sendFleet.js";
 import { getMyFleetInFly } from "./utils/fleetInFly.js";
+import { randomSortArray } from "./utils/random.js";
 
 let pirateRecyclingCount = 0;
 
@@ -36,13 +37,13 @@ await takingActionsOnPlanets(
         console.log('sendResourcesToCapital', isSendResourcesToCapital);
       }
 
-      const isEveryXHours = (nowHours % 2) === 0;
-      if (isEveryXHours && !isSendResourcesToCapital && fleetFreeSlots >= 2) {
+      if (pirateRecyclingCount <= MAX_PIRATE_RECYCLING && !isSendResourcesToCapital && fleetFreeSlots >= 2) {
         const { isSend } = await pirateRecycling(planet, planets);
 
         if (isSend) {
           fleetFreeSlots -= 2;
           isSendPirateRecycling = true;
+          pirateRecyclingCount++;
         }
         console.log('pirateRecycling', isSend);
       }
@@ -90,6 +91,5 @@ await takingActionsOnPlanets(
       return;
     }
   },
-  // (planets) => planets.reverse()
-  () => Math.random() - 0.5
+  (planets) => randomSortArray(planets)
 );

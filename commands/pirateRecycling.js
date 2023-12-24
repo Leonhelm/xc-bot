@@ -1,6 +1,6 @@
 import { PANKOR, PRODUCER } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
-import { randomInteger } from "../utils/number.js";
+import { randomInteger } from "../utils/random.js";
 import { sendFleetTimeout } from "../utils/sendFleet.js";
 
 const radius = 1;
@@ -18,7 +18,7 @@ const getCheckedСoordinates = (planet) => {
     const startGalaxy = parseInt(galaxy) + galaxyDeviation;
     const startSystem = parseInt(system) + systemDeviation;
 
-    for (let galaxy = startGalaxy - radius; galaxy <= startGalaxy + radius; galaxy ++) {
+    for (let galaxy = startGalaxy - radius; galaxy <= startGalaxy + radius; galaxy++) {
         for (let system = startSystem - radius; system <= startSystem + radius; system++) {
             coordinates.push([galaxy, system])
         }
