@@ -33,9 +33,9 @@ export const sendOnExpedition = async (planet, page) => {
       planet.crystal = crystal;
       planet.deuterium = deuterium;
     }
-
-    return {
-      isSend: false
-    };
   }
+
+  return {
+    isSend: false
+  };
 };
