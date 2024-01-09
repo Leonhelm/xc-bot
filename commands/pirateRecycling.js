@@ -7,7 +7,7 @@ const radius = 1;
 const galaxyDeviation = randomInteger(-3, 3);
 const systemDeviation = randomInteger(-3, 3);
 const pirateMinPower = 50;
-const pirateMaxPower = 1300;
+const pirateMaxPower = 1200;
 const pankorMinCount = 1;
 const producerMinCount = 20;
 const sentFleetIds = [];
@@ -140,11 +140,11 @@ export const pirateRecycling = async (planet) => {
 
     const ships = new Map();
 
-    if (suitablePirate.power < 350) {
+    if (suitablePirate.power < 300) {
         ships.set(PANKOR.id, pankorMinCount);
         ships.set(PRODUCER.id, producerMinCount);
     } else if (pankorsInPlanet > 2) {
-        if (suitablePirate.power < 750) {
+        if (suitablePirate.power < 700) {
             ships.set(PANKOR.id, 2);
             ships.set(PRODUCER.id, producersInPlanet);
         } else if (pankorsInPlanet > 2) {
