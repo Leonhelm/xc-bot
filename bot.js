@@ -91,5 +91,5 @@ await takingActionsOnPlanets(
       return;
     }
   },
-  (planets) => randomSortArray(planets)
+  (planets) => planets.sort((a, b) => b.deuterium > a.deuterium)
 );
