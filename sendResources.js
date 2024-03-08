@@ -16,5 +16,5 @@ await takingActionsOnPlanets(
       }
     }
   },
-  (planets) => planets.sort((a, b) => b.metal > a.metal)
+  (planets) => planets.sort((a, b) => b.deuterium > a.deuterium)
 );
