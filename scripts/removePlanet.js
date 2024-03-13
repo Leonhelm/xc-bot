@@ -3,8 +3,8 @@ setInterval(async () => {
         return;
     }
 
-    const elems = document.querySelectorAll('.planetbuilding_building');
     let elem = null;
+    const elems = document.querySelectorAll('.planetbuilding_building');
 
     elems.forEach(el => {
         if (el.querySelector('[poster="/images/buildings/animations/building_process_zerg.webp"]') == null && el.dataset.id !== '62') {
