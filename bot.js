@@ -68,24 +68,9 @@ await takingActionsOnPlanets(
         console.log('buyHydarian');
       }
 
-      let isSendOnExpedition = false;
-
       if (fleetFreeSlots > 0) {
         const { isSend } = await sendOnExpedition(planet, buildingsPage);
-        isSendOnExpedition = isSend;
-
-        if (isSendOnExpedition) {
-          fleetFreeSlots--;
-        }
         console.log('sendOnExpedition', isSend);
-      }
-
-      if (fleetFreeSlots > 0) {
-        if (isSendOnExpedition) {
-          await sendFleetTimeout();
-        }
-        const { isSend } = await planetRecycling(planet);
-        console.log('planetRecycling', isSend);
       }
 
       return;
