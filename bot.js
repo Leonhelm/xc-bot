@@ -1,14 +1,15 @@
-import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET_ID } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { sendOnExpedition } from "./commands/sendOnExpedition.js";
 import { pirateRecycling } from "./commands/pirateRecycling.js";
 import { buyHydarian } from "./commands/buyHydarian.js";
-import { planetRecycling } from "./commands/planetRecycling.js";
+import { createPlanet } from "./commands/createPlanet.js";
+import { removePlanet } from "./commands/removePlanet.js";
 import { sendFleetTimeout } from "./utils/sendFleet.js";
 import { getMyFleetInFly } from "./utils/fleetInFly.js";
-import { randomSortArray } from "./utils/random.js";
+import { getBuildTokens } from "./utils/build.js";
 
 let pirateRecyclingCount = 0;
 
@@ -17,6 +18,7 @@ await takingActionsOnPlanets(
     const { type, id, metal, crystal, deuterium } = planet;
     const buildingsPage = await collectionResources(id);
     const nowHours = new Date().getUTCHours() + 3; // Делаем таймзону как на сервере игры
+    const buildTokens = getBuildTokens(buildingsPage);
     let fleetFreeSlots = MAX_FLEETS - getMyFleetInFly(buildingsPage).length;
 
     if (type === "colony") {
@@ -26,7 +28,6 @@ await takingActionsOnPlanets(
 
       const isMaxColonyResources = metal > MAX_COLONY_RESOURCES || crystal > MAX_COLONY_RESOURCES || deuterium > MAX_COLONY_RESOURCES;
       let isSendResourcesToCapital = false;
-      let isSendPirateRecycling = false;
 
       if (isMaxColonyResources && fleetFreeSlots > 0) {
         isSendResourcesToCapital = await sendResourcesToCapital(planet);
@@ -37,24 +38,22 @@ await takingActionsOnPlanets(
         console.log('sendResourcesToCapital', isSendResourcesToCapital);
       }
 
+      if (id === REMOVE_PLANET_ID) {
+        await removePlanet(buildingsPage, buildTokens);
+        console.log('removePlanet');
+      } else if (!isSendResourcesToCapital) {
+        await createPlanet(buildingsPage, buildTokens);
+        console.log('createPlanet');
+      }
+
       if (pirateRecyclingCount <= MAX_PIRATE_RECYCLING && !isSendResourcesToCapital && fleetFreeSlots > 2) {
         const { isSend } = await pirateRecycling(planet, planets);
 
         if (isSend) {
           fleetFreeSlots -= 2;
-          isSendPirateRecycling = true;
           pirateRecyclingCount++;
         }
         console.log('pirateRecycling', isSend);
-      }
-
-      if (fleetFreeSlots > 0) {
-        if (isSendPirateRecycling) {
-          await sendFleetTimeout();
-        }
-
-        const { isSend } = await planetRecycling(planet);
-        console.log('planetRecycling', isSend);
       }
 
       return;
@@ -66,6 +65,7 @@ await takingActionsOnPlanets(
 
       if (isEveryXHours && isThereSurplusResources) {
         await buyHydarian(planet);
+        console.log('buyHydarian');
       }
 
       let isSendOnExpedition = false;

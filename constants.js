@@ -3,10 +3,12 @@ export const USER_NAME = Deno.env.get("USER_NAME");
 
 export const GAME_URL = "https://xcraft.ru";
 export const MAX_CAPITAL_RESOURCES = 1_500_000;
-export const MAX_COLONY_RESOURCES = 40_000;
+export const MAX_COLONY_RESOURCES = 80_000;
 export const MAX_FLEETS = 11;
 export const MAX_EXPEDITIONS = 3;
 export const MAX_PIRATE_RECYCLING = 3;
+
+export const REMOVE_PLANET_ID = Deno.env.get("REMOVE_PLANET_ID");
 
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),
@@ -15,14 +17,6 @@ export const CAPITAL = {
   planet: Deno.env.get("CAPITAL_PLANET"),
   planetType: 1,
 };
-
-export const RECYCLING = {
-  id: Deno.env.get("RECYCLING_ID"),
-  galaxy: Deno.env.get("RECYCLING_GALAXY"),
-  system: Deno.env.get("RECYCLING_SYSTEM"),
-  planet: Deno.env.get("RECYCLING_PLANET"),
-  planetType: 1,
-}
 
 export const QUEEN = {
   id: 250,
@@ -44,13 +38,6 @@ export const PRODUCER = {
   metal: 2_800,
   crystal: 1_700,
   deuterium: 50,
-};
-
-export const LEXX = {
-  id: 244,
-  metal: 9_000_000,
-  crystal: 3_000_000,
-  deuterium: 1_250_000,
 };
 
 export const PANKOR = {
