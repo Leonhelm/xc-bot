@@ -57,7 +57,7 @@ export const createPlanet = async (buildingsPage, buildTokens) => {
     if (isCreate) {
         createCount++;
     } else {
-        return;
+        return createCount;
     }
 
 

@@ -7,7 +7,6 @@ import { pirateRecycling } from "./commands/pirateRecycling.js";
 import { buyHydarian } from "./commands/buyHydarian.js";
 import { createPlanet } from "./commands/createPlanet.js";
 import { removePlanet } from "./commands/removePlanet.js";
-import { sendFleetTimeout } from "./utils/sendFleet.js";
 import { getMyFleetInFly } from "./utils/fleetInFly.js";
 import { getBuildTokens } from "./utils/build.js";
 
