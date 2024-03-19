@@ -51,19 +51,27 @@ const create = async (buildingsPage, buildTokens) => {
 
 // Выращиваем здания на планете
 export const createPlanet = async (buildingsPage, buildTokens) => {
+    let createCount = 0;
     let isCreate = await create(buildingsPage, buildTokens);
 
-    if (!isCreate) {
+    if (isCreate) {
+        createCount++;
+    } else {
         return;
     }
+
 
     for (let count = 1; count < maxCreateSlots; count++) {
         const buildingsPageNew = await makeRequestText(`/buildings`);
 
         isCreate = await create(buildingsPageNew, buildTokens);
 
-        if (!isCreate) {
+        if (isCreate) {
+            createCount++;
+        } else {
             break;
         }
     }
+
+    return createCount;
 }

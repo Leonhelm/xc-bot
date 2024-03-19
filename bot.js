@@ -38,12 +38,12 @@ await takingActionsOnPlanets(
         console.log('sendResourcesToCapital', isSendResourcesToCapital);
       }
 
-      if (id === REMOVE_PLANET_ID) {
-        await removePlanet(buildingsPage, buildTokens);
-        console.log('removePlanet');
+      if (id == REMOVE_PLANET_ID) {
+        const removeCount = await removePlanet(buildingsPage, buildTokens);
+        console.log('removePlanet', removeCount);
       } else if (!isSendResourcesToCapital) {
-        await createPlanet(buildingsPage, buildTokens);
-        console.log('createPlanet');
+        const createCount = await createPlanet(buildingsPage, buildTokens);
+        console.log('createPlanet', createCount);
       }
 
       if (pirateRecyclingCount <= MAX_PIRATE_RECYCLING && !isSendResourcesToCapital && fleetFreeSlots > 2) {

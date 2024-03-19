@@ -6,6 +6,7 @@ const removeBlackListIds = [62];
 
 // Утилизируем здания на планете
 export const removePlanet = async (buildingsPage, buildTokens) => {
+    let removeCount = 0;
     let removeIds = [];
 
     buildingsPage.split('<div class="planetbuilding_building"').slice(1).forEach((rawData) => {
@@ -42,6 +43,8 @@ export const removePlanet = async (buildingsPage, buildTokens) => {
             body: formData,
             method: 'POST'
         });
+        removeCount++;
     }
 
+    return removeCount;
 }
