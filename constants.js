@@ -8,7 +8,9 @@ export const MAX_FLEETS = 11;
 export const MAX_EXPEDITIONS = 3;
 export const MAX_PIRATE_RECYCLING = 3;
 
-export const REMOVE_PLANET_ID = Deno.env.get("REMOVE_PLANET_ID");
+export const REMOVE_PLANET = {
+  id: Deno.env.get("REMOVE_PLANET_ID"),
+};
 
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),

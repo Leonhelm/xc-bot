@@ -1,4 +1,4 @@
-import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET_ID } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
@@ -37,9 +37,7 @@ await takingActionsOnPlanets(
         console.log('sendResourcesToCapital', isSendResourcesToCapital);
       }
 
-      console.log(id, REMOVE_PLANET_ID, typeof id, typeof REMOVE_PLANET_ID);
-
-      if (id == REMOVE_PLANET_ID) {
+      if (String(id) === String(REMOVE_PLANET.id)) {
         const removeCount = await removePlanet(buildingsPage, buildTokens);
         console.log('removePlanet', removeCount);
       } else if (!isSendResourcesToCapital) {
