@@ -37,6 +37,8 @@ await takingActionsOnPlanets(
         console.log('sendResourcesToCapital', isSendResourcesToCapital);
       }
 
+      console.log(id, REMOVE_PLANET_ID, typeof id, typeof REMOVE_PLANET_ID);
+
       if (id == REMOVE_PLANET_ID) {
         const removeCount = await removePlanet(buildingsPage, buildTokens);
         console.log('removePlanet', removeCount);
