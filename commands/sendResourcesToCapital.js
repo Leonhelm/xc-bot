@@ -1,7 +1,7 @@
 import { CAPITAL, OVERLORD } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 
-const deuteriumReserve = 10_000;
+const deuteriumReserve = 15_000;
 
 // Отправка ресурсов с колонии в столицу
 export const sendResourcesToCapital = async (planet) => {

@@ -28,10 +28,12 @@ export const sendOnExpedition = async (planet, page) => {
     const deuterium = planet.deuterium - QUEEN.deuterium;
 
     if (metal > 0 && crystal > 0 && deuterium > 0) {
-      await createFleet(QUEEN.id, 1);
-      planet.metal = metal;
-      planet.crystal = crystal;
-      planet.deuterium = deuterium;
+      try {
+        await createFleet(QUEEN.id, 1);
+        planet.metal = metal;
+        planet.crystal = crystal;
+        planet.deuterium = deuterium;
+      } catch { }
     }
   }
 

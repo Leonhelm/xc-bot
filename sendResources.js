@@ -2,7 +2,7 @@ import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { collectionResources } from "./commands/collectionResources.js";
 
-const reserve = 10_000;
+const reserve = 15_000;
 
 await takingActionsOnPlanets(
   async (planet) => {

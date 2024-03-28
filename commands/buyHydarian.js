@@ -1,7 +1,28 @@
 import { makeRequestText, makeRequestJson } from "../utils/makeRequest.js";
 
+const metallLimit = 3_000_000;
+const deuteriumBuy = 500_000;
+
 // Покупаем хайды на бирже за ресурсы
 export const buyHydarian = async (planet) => {
+    if (planet.metal >= metallLimit) {
+        const formData = new FormData();
+        formData.append('commission', 1);
+        formData.append('metal', 0);
+        formData.append('crystal', 0);
+        formData.append('deuterium', deuteriumBuy);
+        formData.append('type', 'metal');
+
+        try {
+            await makeRequestText('/market/resources/exchange/', {
+                body: formData,
+                method: 'POST'
+            });
+            planet.metal = planet.metal - metallLimit;
+            planet.deuterium = planet.deuterium + deuteriumBuy;
+        } catch { }
+    }
+
     const offers = [];
 
     for (let pagination = 1; pagination <= 10; pagination++) {
