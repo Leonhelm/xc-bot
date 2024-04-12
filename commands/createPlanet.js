@@ -2,7 +2,7 @@ import { makeRequestText } from "../utils/makeRequest.js";
 import { randomSortArray } from "../utils/random.js";
 
 const maxCreateSlots = 5;
-const buildingWhiteListIds = [51, 52, 53, 54, 55, 56, 57, 58, 65, 68, 70];
+const buildingWhiteListIds = [51, 52, 53, 54, 55, 58, 65, 68, 70];
 
 const create = async (buildingsPage, buildTokens) => {
     const buildingIds = [];
