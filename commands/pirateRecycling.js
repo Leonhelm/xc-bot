@@ -6,8 +6,8 @@ import { sendFleetTimeout } from "../utils/sendFleet.js";
 const radius = 1;
 const galaxyDeviation = randomInteger(-3, 3);
 const systemDeviation = randomInteger(-3, 3);
-const pirateMinPower = 30;
-const pirateMaxPower = 800;
+const pirateMinPower = 100;
+const pirateMaxPower = 900;
 const pankorMinCount = 1;
 const producerMinCount = 20;
 const sentFleetIds = [];
@@ -140,11 +140,11 @@ export const pirateRecycling = async (planet) => {
 
     const ships = new Map();
 
-    if (suitablePirate.power < 200) {
+    if (suitablePirate.power < 250) {
         ships.set(PANKOR.id, pankorMinCount);
         ships.set(PRODUCER.id, producerMinCount);
     } else if (pankorsInPlanet > 2) {
-        if (suitablePirate.power < 400) {
+        if (suitablePirate.power < 450) {
             ships.set(PANKOR.id, 2);
             ships.set(PRODUCER.id, producersInPlanet);
         } else if (pankorsInPlanet > 2) {
