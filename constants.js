@@ -12,6 +12,10 @@ export const REMOVE_PLANET = {
   id: Deno.env.get("REMOVE_PLANET_ID"),
 };
 
+export const IGNORE_PLANET = {
+  id: Deno.env.get("IGNORE_PLANET_ID"),
+};
+
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),
   galaxy: Deno.env.get("CAPITAL_GALAXY"),

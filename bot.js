@@ -1,4 +1,4 @@
-import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET, IGNORE_PLANET } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
@@ -28,7 +28,7 @@ await takingActionsOnPlanets(
       const isMaxColonyResources = metal > MAX_COLONY_RESOURCES || crystal > MAX_COLONY_RESOURCES || deuterium > MAX_COLONY_RESOURCES;
       let isSendResourcesToCapital = false;
 
-      if (isMaxColonyResources && fleetFreeSlots > 0) {
+      if (isMaxColonyResources && fleetFreeSlots > 0 && String(id) !== String(IGNORE_PLANET.id)) {
         isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
         if (isSendResourcesToCapital) {
