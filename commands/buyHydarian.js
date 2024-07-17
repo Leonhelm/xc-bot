@@ -1,6 +1,6 @@
 import { makeRequestText, makeRequestJson } from "../utils/makeRequest.js";
 
-const metallLimit = 3_000_000;
+const metallLimit = 3_000_000_000_000; // 3_000_000;
 const deuteriumBuy = 500_000;
 
 // Покупаем хайды на бирже за ресурсы
