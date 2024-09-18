@@ -9,11 +9,11 @@ export const MAX_EXPEDITIONS = +new Date() < +new Date('18 Jun 2024') ? 4 : 3;
 export const MAX_PIRATE_RECYCLING = 3;
 
 export const REMOVE_PLANET = {
-  id: Deno.env.get("REMOVE_PLANET_ID"),
+  ids: Deno.env.get("REMOVE_PLANET_ID"),
 };
 
 export const IGNORE_PLANET = {
-  id: Deno.env.get("IGNORE_PLANET_ID"),
+  ids: Deno.env.get("IGNORE_PLANET_ID"),
 };
 
 export const CAPITAL = {

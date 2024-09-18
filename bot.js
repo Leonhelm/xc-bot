@@ -9,6 +9,10 @@ import { createPlanet } from "./commands/createPlanet.js";
 import { removePlanet } from "./commands/removePlanet.js";
 import { getMyFleetInFly } from "./utils/fleetInFly.js";
 import { getBuildTokens } from "./utils/build.js";
+import { formatIds } from "./utils/format.js";
+
+const removePlanetIds = formatIds(REMOVE_PLANET.ids);
+const ignorePlanetIds = formatIds(IGNORE_PLANET.ids);
 
 let pirateRecyclingCount = 0;
 
@@ -28,7 +32,7 @@ await takingActionsOnPlanets(
       const isMaxColonyResources = metal > MAX_COLONY_RESOURCES || crystal > MAX_COLONY_RESOURCES || deuterium > MAX_COLONY_RESOURCES;
       let isSendResourcesToCapital = false;
 
-      if (isMaxColonyResources && fleetFreeSlots > 0 && String(id) !== String(IGNORE_PLANET.id)) {
+      if (isMaxColonyResources && fleetFreeSlots > 0 && !ignorePlanetIds.includes(String(id))) {
         isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
         if (isSendResourcesToCapital) {
@@ -37,7 +41,7 @@ await takingActionsOnPlanets(
         console.log('sendResourcesToCapital', isSendResourcesToCapital);
       }
 
-      if (String(id) === String(REMOVE_PLANET.id)) {
+      if (removePlanetIds.includes(String(id))) {
         const removeCount = await removePlanet(buildingsPage, buildTokens);
         console.log('removePlanet', removeCount);
       } else if (!isSendResourcesToCapital) {
