@@ -1,4 +1,4 @@
-import { PANKOR, PRODUCER } from "../constants.js";
+import { PANKOR, PRODUCER, MIN_COLONY_RESOURCES } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
 import { randomInteger } from "../utils/random.js";
 import { sendFleetTimeout } from "../utils/sendFleet.js";
@@ -105,11 +105,11 @@ const getPirates = async (planet) => {
 
 // Ищем пирата и отправляем флот в миссию "Переработка" на координаты с пиратом
 export const pirateRecycling = async (planet) => {
-    const { fleet } = planet;
+    const { fleet, deuterium } = planet;
     const pankorsInPlanet = fleet.find(f => f.id === PANKOR.id)?.count;
     const producersInPlanet = fleet.find(f => f.id === PRODUCER.id)?.count;
 
-    if (pankorsInPlanet < pankorMinCount || producersInPlanet < producerMinCount) {
+    if (pankorsInPlanet < pankorMinCount || producersInPlanet < producerMinCount || deuterium < MIN_COLONY_RESOURCES) {
         return {
             isSend: false,
         }

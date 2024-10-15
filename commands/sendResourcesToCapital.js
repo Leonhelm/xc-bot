@@ -1,13 +1,11 @@
-import { CAPITAL, OVERLORD } from "../constants.js";
+import { CAPITAL, OVERLORD, MIN_COLONY_RESOURCES } from "../constants.js";
 import { makeRequestJson } from "../utils/makeRequest.js";
-
-const deuteriumReserve = 15_000;
 
 // Отправка ресурсов с колонии в столицу
 export const sendResourcesToCapital = async (planet) => {
   const metal = planet.metal;
   const crystal = planet.crystal;
-  const deuterium = planet.deuterium - deuteriumReserve > 0 ? planet.deuterium - deuteriumReserve : 0;
+  const deuterium = planet.deuterium - MIN_COLONY_RESOURCES > 0 ? planet.deuterium - MIN_COLONY_RESOURCES : 0;
 
   const overlordsCount = Math.ceil(
     (metal + crystal + deuterium) / OVERLORD.capacity

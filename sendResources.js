@@ -1,8 +1,7 @@
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
 import { collectionResources } from "./commands/collectionResources.js";
-
-const reserve = 15_000;
+import { MIN_COLONY_RESOURCES } from "./constants.js";
 
 await takingActionsOnPlanets(
   async (planet) => {
@@ -11,7 +10,7 @@ await takingActionsOnPlanets(
     await collectionResources(id);
 
     if (type === "colony") {
-      if (metal > reserve || crystal > reserve) {
+      if (metal > MIN_COLONY_RESOURCES || crystal > MIN_COLONY_RESOURCES || deuterium > MIN_COLONY_RESOURCES) {
         await sendResourcesToCapital(planet);
       }
     }
