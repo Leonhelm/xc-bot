@@ -24,6 +24,11 @@ await takingActionsOnPlanets(
     const buildTokens = getBuildTokens(buildingsPage);
     let fleetFreeSlots = MAX_FLEETS - getMyFleetInFly(buildingsPage).length;
 
+    if (String(id) === EXPEDITION_CENTER.id && fleetFreeSlots > 0) {
+      const { isSend } = await sendOnExpedition(planet, buildingsPage);
+      console.log('sendOnExpedition', isSend);
+    }
+
     if (type === "colony") {
       if (fleetFreeSlots === 0) {
         return;
@@ -68,11 +73,6 @@ await takingActionsOnPlanets(
         await buyHydarian(planet);
         console.log('buyHydarian');
       }
-    }
-
-    if (String(id) === EXPEDITION_CENTER.id && fleetFreeSlots > 0) {
-      const { isSend } = await sendOnExpedition(planet, buildingsPage);
-      console.log('sendOnExpedition', isSend);
     }
   },
   (planets) => planets.sort((a, b) => b.deuterium - a.deuterium)
