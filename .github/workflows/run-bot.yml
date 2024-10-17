@@ -38,3 +38,4 @@ jobs:
           CAPITAL_PLANET: ${{ secrets.CAPITAL_PLANET }}
           REMOVE_PLANET_ID: ${{ secrets.REMOVE_PLANET_ID }}
           IGNORE_PLANET_ID: ${{ secrets.IGNORE_PLANET_ID }}
+          EXPEDITION_CENTER_ID: ${{ secrets.EXPEDITION_CENTER_ID }}

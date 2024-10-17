@@ -1,4 +1,4 @@
-import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET, IGNORE_PLANET } from "./constants.js";
+import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET, IGNORE_PLANET, EXPEDITION_CENTER } from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
@@ -58,8 +58,6 @@ await takingActionsOnPlanets(
         }
         console.log('pirateRecycling', isSend);
       }
-
-      return;
     }
 
     if (type === "capital") {
@@ -70,13 +68,11 @@ await takingActionsOnPlanets(
         await buyHydarian(planet);
         console.log('buyHydarian');
       }
+    }
 
-      if (fleetFreeSlots > 0) {
-        const { isSend } = await sendOnExpedition(planet, buildingsPage);
-        console.log('sendOnExpedition', isSend);
-      }
-
-      return;
+    if (id === EXPEDITION_CENTER.id && fleetFreeSlots > 0) {
+      const { isSend } = await sendOnExpedition(planet, buildingsPage);
+      console.log('sendOnExpedition', isSend);
     }
   },
   (planets) => planets.sort((a, b) => b.deuterium - a.deuterium)

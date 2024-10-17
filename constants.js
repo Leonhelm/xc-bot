@@ -17,6 +17,10 @@ export const IGNORE_PLANET = {
   ids: Deno.env.get("IGNORE_PLANET_ID"),
 };
 
+export const EXPEDITION_CENTER = {
+  id: Deno.env.get("EXPEDITION_CENTER_ID"),
+};
+
 export const CAPITAL = {
   id: Deno.env.get("CAPITAL_ID"),
   galaxy: Deno.env.get("CAPITAL_GALAXY"),
