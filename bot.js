@@ -70,7 +70,7 @@ await takingActionsOnPlanets(
       }
     }
 
-    if (id === EXPEDITION_CENTER.id && fleetFreeSlots > 0) {
+    if (String(id) === EXPEDITION_CENTER.id && fleetFreeSlots > 0) {
       const { isSend } = await sendOnExpedition(planet, buildingsPage);
       console.log('sendOnExpedition', isSend);
     }
