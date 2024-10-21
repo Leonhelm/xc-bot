@@ -1,4 +1,13 @@
-import { MAX_CAPITAL_RESOURCES, MAX_COLONY_RESOURCES, MAX_FLEETS, MAX_PIRATE_RECYCLING, REMOVE_PLANET, IGNORE_PLANET, EXPEDITION_CENTER } from "./constants.js";
+import {
+  MAX_CAPITAL_RESOURCES,
+  MAX_COLONY_RESOURCES,
+  MAX_FLEETS,
+  MAX_PIRATE_RECYCLING,
+  REMOVE_PLANETS,
+  IGNORE_AUTO_BUILDING_PLANETS,
+  IGNORE_SEND_TO_CAPITAL_PLANETS,
+  EXPEDITION_CENTER
+} from "./constants.js";
 import { collectionResources } from "./commands/collectionResources.js";
 import { sendResourcesToCapital } from "./commands/sendResourcesToCapital.js";
 import { takingActionsOnPlanets } from "./commands/takingActionsOnPlanets.js";
@@ -11,8 +20,9 @@ import { getMyFleetInFly } from "./utils/fleetInFly.js";
 import { getBuildTokens } from "./utils/build.js";
 import { formatIds } from "./utils/format.js";
 
-const removePlanetIds = formatIds(REMOVE_PLANET.ids);
-const ignorePlanetIds = formatIds(IGNORE_PLANET.ids);
+const removePlanetIds = formatIds(REMOVE_PLANETS.ids);
+const ignoreAutoBuildingPlanetIds = formatIds(IGNORE_AUTO_BUILDING_PLANETS.ids);
+const ignoreSendToCapitalPlanetIds = formatIds(IGNORE_SEND_TO_CAPITAL_PLANETS.ids);
 
 let pirateRecyclingCount = 0;
 
@@ -37,7 +47,7 @@ await takingActionsOnPlanets(
       const isMaxColonyResources = metal > MAX_COLONY_RESOURCES || crystal > MAX_COLONY_RESOURCES || deuterium > MAX_COLONY_RESOURCES;
       let isSendResourcesToCapital = false;
 
-      if (isMaxColonyResources && fleetFreeSlots > 0 && !ignorePlanetIds.includes(String(id))) {
+      if (isMaxColonyResources && fleetFreeSlots > 0 && !ignoreSendToCapitalPlanetIds.includes(String(id))) {
         isSendResourcesToCapital = await sendResourcesToCapital(planet);
 
         if (isSendResourcesToCapital) {
@@ -49,7 +59,7 @@ await takingActionsOnPlanets(
       if (removePlanetIds.includes(String(id))) {
         const removeCount = await removePlanet(buildingsPage, buildTokens);
         console.log('removePlanet', removeCount);
-      } else if (!isSendResourcesToCapital) {
+      } else if (!isSendResourcesToCapital && !ignoreAutoBuildingPlanetIds.includes(String(id))) {
         const createCount = await createPlanet(buildingsPage, buildTokens);
         console.log('createPlanet', createCount);
       }

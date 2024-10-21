@@ -36,6 +36,7 @@ jobs:
           CAPITAL_GALAXY: ${{ secrets.CAPITAL_GALAXY }}
           CAPITAL_SYSTEM: ${{ secrets.CAPITAL_SYSTEM }}
           CAPITAL_PLANET: ${{ secrets.CAPITAL_PLANET }}
-          REMOVE_PLANET_ID: ${{ secrets.REMOVE_PLANET_ID }}
-          IGNORE_PLANET_ID: ${{ secrets.IGNORE_PLANET_ID }}
+          REMOVE_PLANET_IDS: ${{ secrets.REMOVE_PLANET_IDS }}
+          IGNORE_AUTO_BUILDING_PLANET_IDS: ${{ secrets.IGNORE_AUTO_BUILDING_PLANET_IDS }}
+          IGNORE_SEND_TO_CAPITAL_PLANET_IDS: ${{ secrets.IGNORE_SEND_TO_CAPITAL_PLANET_IDS }}
           EXPEDITION_CENTER_ID: ${{ secrets.EXPEDITION_CENTER_ID }}

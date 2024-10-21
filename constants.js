@@ -9,12 +9,16 @@ export const MAX_FLEETS = +new Date() < +new Date('10 May 2024') ? 13 : 12;
 export const MAX_EXPEDITIONS = +new Date() < +new Date('18 Jun 2024') ? 4 : 3;
 export const MAX_PIRATE_RECYCLING = 3;
 
-export const REMOVE_PLANET = {
-  ids: Deno.env.get("REMOVE_PLANET_ID"),
+export const IGNORE_AUTO_BUILDING_PLANETS = {
+  ids: Deno.env.get("IGNORE_AUTO_BUILDING_PLANET_IDS")
 };
 
-export const IGNORE_PLANET = {
-  ids: Deno.env.get("IGNORE_PLANET_ID"),
+export const IGNORE_SEND_TO_CAPITAL_PLANETS = {
+  ids: Deno.env.get("IGNORE_SEND_TO_CAPITAL_PLANET_IDS")
+};
+
+export const REMOVE_PLANETS = {
+  ids: Deno.env.get("REMOVE_PLANET_IDS")
 };
 
 export const EXPEDITION_CENTER = {
