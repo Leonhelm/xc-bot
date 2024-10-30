@@ -85,7 +85,7 @@ await takingActionsOnPlanets(
         console.log('buyHydarian');
       }
       
-      // await createEvolution(planet);
+      await createEvolution(planet);
     }
   },
   (planets) => planets.sort((a, b) => b.deuterium - a.deuterium)

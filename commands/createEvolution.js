@@ -1,5 +1,5 @@
 import { makeRequestText, makeRequest } from "../utils/makeRequest.js";
-import { getRandom } from "../utils/getRandom.js";
+import { getRandom } from "../utils/random.js";
 
 const dataPostReduce = (acc, data) => {
   const [name, value] = data.split("=");
