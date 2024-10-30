@@ -1,5 +1,5 @@
 import { makeRequestText, makeRequest } from "../utils/makeRequest.js";
-import { getRandom } from "../utils/random.js";
+import { randomInteger } from "../utils/random.js";
 
 const dataPostReduce = (acc, data) => {
   const [name, value] = data.split("=");
@@ -47,7 +47,7 @@ export const createEvolution = async (planet) => {
 
   const formData = new FormData();
   const { metal, crystal, deuterium, dataPost } =
-    researchList[getRandom(0, researchList.length - 1)];
+    researchList[randomInteger(0, researchList.length - 1)];
 
   Object.entries(dataPost).forEach(([name, value]) => {
     formData.append(name, value);
