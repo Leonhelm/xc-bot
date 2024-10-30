@@ -16,6 +16,7 @@ import { pirateRecycling } from "./commands/pirateRecycling.js";
 import { buyHydarian } from "./commands/buyHydarian.js";
 import { createPlanet } from "./commands/createPlanet.js";
 import { removePlanet } from "./commands/removePlanet.js";
+import { createEvolution } from "./commands/createEvolution.js";
 import { getMyFleetInFly } from "./utils/fleetInFly.js";
 import { getBuildTokens } from "./utils/build.js";
 import { formatIds } from "./utils/format.js";
@@ -83,6 +84,8 @@ await takingActionsOnPlanets(
         await buyHydarian(planet);
         console.log('buyHydarian');
       }
+      
+      await createEvolution(planet);
     }
   },
   (planets) => planets.sort((a, b) => b.deuterium - a.deuterium)
