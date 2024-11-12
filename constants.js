@@ -6,7 +6,7 @@ export const MAX_CAPITAL_RESOURCES = 500_000;
 export const MAX_COLONY_RESOURCES = 200_000;
 export const MIN_COLONY_RESOURCES = 17_000;
 export const MAX_FLEETS = +new Date() < +new Date('10 May 2024') ? 13 : 12;
-export const MAX_EXPEDITIONS = +new Date() < +new Date('18 Jun 2024') ? 4 : 3;
+export const MAX_EXPEDITIONS = +new Date() < +new Date('11 Dec 2024') ? 4 : 3;
 export const MAX_PIRATE_RECYCLING = 3;
 
 export const IGNORE_AUTO_BUILDING_PLANETS = {
